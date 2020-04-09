@@ -7,15 +7,18 @@ namespace GradeBook.Tests
 
     public class TypeTests
     {
+        int count = 0;
+
         [Fact]
         public void WriteLogDelegateCanPointToMethod()
         {
-            WriteLogDelegate log;
-            log = ReturnMessage;
-            
+            WriteLogDelegate log = ReturnMessage;
+            log += ReturnMessage;
+            log += IncrementCount;
+
             var result = log("Hello, I'm a delegate.");
             
-            Assert.Equal("Hello, I'm a delegate.", result);
+            Assert.Equal(3, count);
         }
 
         [Fact]
@@ -136,8 +139,15 @@ namespace GradeBook.Tests
             return book = new Book(name);
         }
 
+        string IncrementCount(string message)
+        {
+            count ++;
+            return message;
+        }
+
         string ReturnMessage(string message)
         {
+            count ++;
             return message;
         }
 
