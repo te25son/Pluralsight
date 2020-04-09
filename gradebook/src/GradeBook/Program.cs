@@ -8,6 +8,7 @@ namespace GradeBook
         {               
             var book = new Book("Tim's Gradebook");
             InputGradesToBook(book);
+            book.DisplayStatistics();
 
             var book2 = new Book("Karina's Gradebook");
             book2.AddGrade(90.3);

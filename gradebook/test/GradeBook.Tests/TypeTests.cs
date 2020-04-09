@@ -3,8 +3,21 @@ using Xunit;
 
 namespace GradeBook.Tests
 {
+    public delegate string WriteLogDelegate(string logMessage);
+
     public class TypeTests
     {
+        [Fact]
+        public void WriteLogDelegateCanPointToMethod()
+        {
+            WriteLogDelegate log;
+            log = ReturnMessage;
+            
+            var result = log("Hello, I'm a delegate.");
+            
+            Assert.Equal("Hello, I'm a delegate.", result);
+        }
+
         [Fact]
         public void GetBookReturnsDifferentObjects()
         {
@@ -121,6 +134,11 @@ namespace GradeBook.Tests
             // the parameter
 
             return book = new Book(name);
+        }
+
+        string ReturnMessage(string message)
+        {
+            return message;
         }
 
         private Book PassByValue(Book book)

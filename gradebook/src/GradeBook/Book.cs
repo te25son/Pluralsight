@@ -7,7 +7,9 @@ namespace GradeBook
     {
         private List<double> grades;       
         
-        public string Name;
+        private string name;
+
+        public string Name { get; set; }
 
         public Book(string name)
         {
@@ -15,7 +17,7 @@ namespace GradeBook
             grades = new List<double>();
         }
 
-        public void AddLetterGrade(char letter)
+        public void AddGrade(char letter)
         {
             switch(letter)
             {
@@ -44,11 +46,6 @@ namespace GradeBook
             {
                 throw new ArgumentException($"Invalid {nameof(grade)} : {grade}.");
             }
-        }
-
-        private void AddCar()
-        {
-            throw new NotImplementedException();
         }
 
         public double GetLowestGrade()
@@ -110,6 +107,16 @@ namespace GradeBook
             };
 
             return statistics;
+        }
+
+        public void DisplayStatistics(Statistics statistics = null)
+        {
+            var statisticsToDisplay = statistics ?? GetStatistics();
+            Console.WriteLine($"For the book named {name}");
+            Console.WriteLine($"The lowest grade is: {statisticsToDisplay.Lowest}");
+            Console.WriteLine($"The highest grade is: {statisticsToDisplay.Highest}");
+            Console.WriteLine($"The average grade is: {statisticsToDisplay.Average}");
+            Console.WriteLine($"The letter grade of the average score is: {statisticsToDisplay.Letter}");
         }
     }
 }
