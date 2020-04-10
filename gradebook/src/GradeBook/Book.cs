@@ -7,9 +7,9 @@ namespace GradeBook
 
     public class Book : NamedObject
     {
-        private readonly List<double> grades;       
+        private List<double> grades;       
         
-        private readonly string name;
+        private string name;
 
         public event GradeAddedDelegate GradeAdded;
 
