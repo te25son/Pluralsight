@@ -5,13 +5,11 @@ namespace GradeBook
 {
     public delegate void GradeAddedDelegate(object sender, EventArgs args);
 
-    public class Book
+    public class Book : NamedObject
     {
-        private List<double> grades;       
+        private readonly List<double> grades;       
         
-        private string name;
-
-        public string Name { get; set; }
+        private readonly string name;
 
         public event GradeAddedDelegate GradeAdded;
 
@@ -45,11 +43,7 @@ namespace GradeBook
             if (grade <= 100 && grade >= 0)
             {
                 grades.Add(grade);
-                
-                if (GradeAdded != null)
-                {
-                    GradeAdded(this, new EventArgs());
-                }
+                GradeAdded?.Invoke(this, new EventArgs());
             }
             else
             {
@@ -121,7 +115,7 @@ namespace GradeBook
         public void DisplayStatistics(Statistics statistics = null)
         {
             var statisticsToDisplay = statistics ?? GetStatistics();
-            Console.WriteLine($"For the book named {name}");
+            Console.WriteLine($"For the book named {Name}");
             Console.WriteLine($"The lowest grade is: {statisticsToDisplay.Lowest}");
             Console.WriteLine($"The highest grade is: {statisticsToDisplay.Highest}");
             Console.WriteLine($"The average grade is: {statisticsToDisplay.Average}");
