@@ -56,7 +56,7 @@ namespace GradeBook.Tests
         [Fact]
         public void CanPassByValue()
         {
-            var book1 = new Book("My Book");
+            var book1 = new InMemoryBook("My Book");
             var book2 = PassByValue(book1);
 
             Assert.Equal(book1.Name, book2.Name);
@@ -69,7 +69,7 @@ namespace GradeBook.Tests
             // book2 references the object book1 references
             // therefore a change to one object will change another
 
-            var book1 = new Book("My Book");
+            var book1 = new InMemoryBook("My Book");
             var book2 = PassByReference(out book1, "New Name");
 
             Assert.Equal("New Name", book1.Name);
@@ -131,12 +131,12 @@ namespace GradeBook.Tests
             return 3;
         }
 
-        private Book PassByReference(out Book book, string name)
+        private InMemoryBook PassByReference(out InMemoryBook book, string name)
         {
             // `out` is similar to `ref` but forces you to assign
             // the parameter
 
-            return book = new Book(name);
+            return book = new InMemoryBook(name);
         }
 
         string IncrementCount(string message)
@@ -151,19 +151,19 @@ namespace GradeBook.Tests
             return message;
         }
 
-        private Book PassByValue(Book book)
+        private InMemoryBook PassByValue(InMemoryBook book)
         {
-            return book = new Book(book.Name);
+            return book = new InMemoryBook(book.Name);
         }
 
-        private void SetBookName(Book book, string name)
+        private void SetBookName(InMemoryBook book, string name)
         {
             book.Name = name;
         }
 
-        private Book AddBook(string name)
+        private InMemoryBook AddBook(string name)
         {
-            return new Book(name);
+            return new InMemoryBook(name);
         }
     }
 }

@@ -10,7 +10,7 @@ namespace GradeBook.Tests
         public void BookStatisticsResult()
         {
             // arrange
-            var book = new Book("");
+            var book = new InMemoryBook("");
             book.AddGrade(88.3);
             book.AddGrade(90.7);
             book.AddGrade(73.7);
@@ -28,7 +28,7 @@ namespace GradeBook.Tests
         [Fact]
         public void AddGradeThrowsInvalidMessage()
         {
-            var book = new Book("Book");
+            var book = new InMemoryBook("Book");
             
             Assert.Throws<ArgumentException>(() => book.AddGrade(101.00));
             Assert.Throws<ArgumentException>(() => book.AddGrade(-1.0));
