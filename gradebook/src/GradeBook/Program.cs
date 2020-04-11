@@ -6,11 +6,9 @@ namespace GradeBook
     {
         static void Main(string[] args)
         {               
-            var book = new InMemoryBook("Tim's Gradebook");
+            var book = new DiskBook("Tim's Gradebook");
             book.GradeAdded += OnGradesAdded;
-
             EnterGrades(book);
-            book.DisplayStatistics();
 
             var book2 = new InMemoryBook("Karina's Gradebook");
             book2.AddGrade(90.3);
@@ -19,7 +17,7 @@ namespace GradeBook
             book2.GetStatistics();
         }
 
-        private static void EnterGrades(IBook book)
+        private static void EnterGrades(Book book)
         {
             while(true)
             {
