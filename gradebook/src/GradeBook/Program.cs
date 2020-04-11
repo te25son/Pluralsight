@@ -9,6 +9,12 @@ namespace GradeBook
             var book = new DiskBook("Tim's Gradebook");
             book.GradeAdded += OnGradesAdded;
             EnterGrades(book);
+            
+            var bookStats = book.GetStatistics();
+            System.Console.WriteLine($"Highest : {bookStats.Highest}");
+            System.Console.WriteLine($"Lowest : {bookStats.Lowest}");
+            System.Console.WriteLine($"Average : {bookStats.Average}");
+            System.Console.WriteLine($"Letter : {bookStats.Letter}");
 
             var book2 = new InMemoryBook("Karina's Gradebook");
             book2.AddGrade(90.3);

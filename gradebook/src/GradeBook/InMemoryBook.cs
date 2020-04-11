@@ -50,63 +50,14 @@ namespace GradeBook
             }
         }
 
-        public double GetLowestGrade()
-        {
-            var lowestGrade = double.MaxValue;
-            foreach (var grade in grades)
-            {
-                lowestGrade = Math.Min(grade, lowestGrade);
-            }
-            return lowestGrade;
-        }
-
-        public double GetHighestGrade()
-        {   
-            var highestGrade = double.MinValue;
-            foreach (var grade in grades)
-            {
-                highestGrade = Math.Max(grade, highestGrade);
-            }
-            return highestGrade;
-        }
-
-        public double GetAverageGrade()
-        {
-            var result = 0.0;
-            foreach (var grade in grades)
-            {
-                result += grade;
-            }
-            return result /= grades.Count;
-        }
-
-        public char GetLetterGrade(double average)
-        {
-            switch (average)
-            {
-                case var d when d >= 90.0:
-                    return 'A';             
-                case var d when d >= 80.0:
-                    return 'B';
-                case var d when d >= 70.0:
-                    return 'C';
-                case var d when d >= 60.0:
-                    return 'D';
-                default:
-                    return 'F';
-            }
-        }
-
         public override Statistics GetStatistics()
         {
-            var average = GetAverageGrade();
-            var statistics = new Statistics
+            var statistics = new Statistics();
+
+            for (var index = 0; index < grades.Count; index++)
             {
-                Highest = GetHighestGrade(),
-                Lowest = GetLowestGrade(),
-                Average = average,
-                Letter = GetLetterGrade(average)
-            };
+                statistics.Add(grades[index]);
+            }
 
             return statistics;
         }
