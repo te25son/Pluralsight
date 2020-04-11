@@ -19,7 +19,7 @@ namespace GradeBook
             book2.GetStatistics();
         }
 
-        private static void EnterGrades(Book book)
+        private static void EnterGrades(IBook book)
         {
             while(true)
             {
