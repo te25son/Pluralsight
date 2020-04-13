@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace generic_collections
+namespace GenericCollections
 {
     class Program
     {

@@ -1,4 +1,4 @@
-namespace generic_collections
+namespace GenericCollections
 {
     public class Employee
     {
