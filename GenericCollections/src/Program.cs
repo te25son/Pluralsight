@@ -10,6 +10,8 @@ namespace GenericCollections
             ArrayExamples.Examples();
             System.Console.WriteLine("---- LISTS ----");
             ListExamples.Examples();
+            System.Console.WriteLine("---- QUEUES ----");
+            QueueExamples.Examples();
         }
     }
 }
