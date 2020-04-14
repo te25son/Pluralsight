@@ -8,10 +8,15 @@ namespace GenericCollections
         {
             System.Console.WriteLine("---- ARRAYS ----");
             ArrayExamples.Examples();
+            
             System.Console.WriteLine("---- LISTS ----");
             ListExamples.Examples();
+            
             System.Console.WriteLine("---- QUEUES ----");
             QueueExamples.Examples();
+            
+            System.Console.WriteLine("---- STACKS ----");
+            StackExamples.Examples();
         }
     }
 }
