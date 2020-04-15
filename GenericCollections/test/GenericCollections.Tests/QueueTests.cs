@@ -29,7 +29,7 @@ namespace GenericCollections.Tests
             var firstEmployee = queue.Dequeue();
 
             Assert.False(queue.Contains(firstEmployee));
-            Assert.Equal(1, queue.Count);
+            Assert.True(queue.Count.Equals(1));
         }
 
         [Fact]
@@ -45,7 +45,7 @@ namespace GenericCollections.Tests
             queue.Dequeue();
 
             Assert.Equal(1, asArray[0]);
-            Assert.Equal(2, queue.Count);
+            Assert.True(queue.Count.Equals(2));
             Assert.Equal(2, queue.Peek());
         }
     }
