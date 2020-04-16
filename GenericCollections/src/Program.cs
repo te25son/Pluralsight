@@ -17,6 +17,9 @@ namespace GenericCollections
             
             System.Console.WriteLine("---- STACKS ----");
             StackExamples.Examples();
+
+            System.Console.WriteLine("---- LINKS ----");
+            LinkExamples.Examples();
         }
     }
 }
