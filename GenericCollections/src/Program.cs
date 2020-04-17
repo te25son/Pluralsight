@@ -20,6 +20,9 @@ namespace GenericCollections
 
             System.Console.WriteLine("---- LINKS ----");
             LinkExamples.Examples();
+
+            System.Console.WriteLine("---- MAPS ----");
+            MapExamples.Examples();
         }
     }
 }
