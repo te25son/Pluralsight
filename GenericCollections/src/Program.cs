@@ -23,6 +23,9 @@ namespace GenericCollections
 
             System.Console.WriteLine("---- MAPS ----");
             MapExamples.Examples();
+
+            System.Console.WriteLine("---- SORT ----");
+            SortExamples.Examples();
         }
     }
 }
