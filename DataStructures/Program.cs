@@ -9,6 +9,12 @@ namespace DataStructures
             var buffer = new Buffer<double>();
 
             ProcessInput(buffer);
+
+            foreach (var item in buffer)
+            {
+                Console.WriteLine(item);
+            }
+
             ProcessBuffer(buffer);
         }
 
