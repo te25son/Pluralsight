@@ -4,21 +4,21 @@ using System.Text;
 
 namespace DataStructures
 {
-    class Buffer<T> : IBuffer<T>
+    public class Buffer<T> : IBuffer<T>
     {
-        Queue<T> _queue = new Queue<T>();
+        protected Queue<T> _queue = new Queue<T>();
 
-        public bool IsEmpty
+        public virtual bool IsEmpty
         {
             get { return _queue.Count == 0; }
         }
 
-        public T Read()
+        public virtual T Read()
         {
             return _queue.Dequeue();
         }
 
-        public void Write(T value)
+        public virtual void Write(T value)
         {
             _queue.Enqueue(value);
         }
