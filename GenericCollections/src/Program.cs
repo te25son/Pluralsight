@@ -7,6 +7,12 @@ namespace GenericCollections
     {
         static void Main(string[] args)
         {
+            // CollectionExamples();
+            EmployeeCompareExamples();
+        }
+
+        public static void CollectionExamples()
+        {
             System.Console.WriteLine("---- ARRAYS ----");
             ArrayExamples.Examples();
             
@@ -27,19 +33,22 @@ namespace GenericCollections
 
             System.Console.WriteLine("---- SORT ----");
             SortExamples.Examples();
+        }
 
-            System.Console.WriteLine("\nFurther Examples\n");
-            var departments = new SortedDictionary<string, SortedSet<Employee>>();
+        public static void EmployeeCompareExamples()
+        {
+            System.Console.WriteLine("\nEmployee Compare Examples\n");
+            var departments = new DepartmentCollection();
             
-            departments.Add("Sales", new SortedSet<Employee>(new EmployeeComparer()));
-            departments["Sales"].Add(new Employee { Name = "Joy" });
-            departments["Sales"].Add(new Employee { Name = "Dani" });
-            departments["Sales"].Add(new Employee { Name = "Dani" });
+            departments
+                .Add("Sales", new Employee { Name = "Joy" })
+                .Add("Sales", new Employee { Name = "Dani" })
+                .Add("Sales", new Employee { Name = "Dani" });
 
-            departments.Add("Engineering", new SortedSet<Employee>(new EmployeeComparer()));
-            departments["Engineering"].Add(new Employee { Name = "Adam" });
-            departments["Engineering"].Add(new Employee { Name = "Eve" });
-            departments["Engineering"].Add(new Employee { Name = "Jim" });
+            departments
+                .Add("Engineering", new Employee { Name = "Adam" })
+                .Add("Engineering", new Employee { Name = "Eve" })
+                .Add("Engineering", new Employee { Name = "Jim" });
 
             foreach (var department in departments)
             {
