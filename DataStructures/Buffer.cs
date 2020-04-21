@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Text;
 
 namespace DataStructures
@@ -22,6 +23,16 @@ namespace DataStructures
         public virtual void Write(T value)
         {
             _queue.Enqueue(value);
+        }
+
+        public IEnumerable<TOut> AsEnumerableOf<TOut>()
+        {
+            var converter = TypeDescriptor.GetConverter(typeof(T));
+            foreach (var item in _queue)
+            {
+                var result = converter.ConvertTo(item, typeof(TOut));
+                yield return (TOut)result;
+            }
         }
 
         public IEnumerator<T> GetEnumerator()

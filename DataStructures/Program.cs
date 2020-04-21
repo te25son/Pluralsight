@@ -10,9 +10,10 @@ namespace DataStructures
 
             ProcessInput(buffer);
 
-            foreach (var item in buffer)
+            var asInts = buffer.AsEnumerableOf<int>();
+            foreach (var item in asInts)
             {
-                Console.WriteLine(item);
+                Console.WriteLine($"{item} : {item.GetType()}");
             }
 
             ProcessBuffer(buffer);

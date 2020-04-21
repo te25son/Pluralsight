@@ -8,6 +8,7 @@ namespace DataStructures
     {
         bool IsEmpty { get; }
         void Write(T value);
+        IEnumerable<TOut> AsEnumerableOf<TOut>();
         T Read();
     }
 }
