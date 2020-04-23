@@ -25,16 +25,6 @@ namespace DataStructures
             _queue.Enqueue(value);
         }
 
-        public IEnumerable<TOut> AsEnumerableOf<TOut>()
-        {
-            var converter = TypeDescriptor.GetConverter(typeof(T));
-            foreach (var item in _queue)
-            {
-                var result = converter.ConvertTo(item, typeof(TOut));
-                yield return (TOut)result;
-            }
-        }
-
         public IEnumerator<T> GetEnumerator()
         {
             foreach (var item in _queue)
