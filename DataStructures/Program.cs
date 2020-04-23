@@ -4,12 +4,18 @@ namespace DataStructures
 {
     class Program
     {
+        static void ConsoleWrite(double data)
+        {
+            Console.WriteLine(data);
+        }
+
         static void Main(string[] args)
         {
             var buffer = new Buffer<double>();
 
             ProcessInput(buffer);
-            buffer.Dump();
+
+            buffer.Dump(ConsoleWrite);
 
             var asInts = buffer.AsEnumerableOf<double, int>();
             foreach (var item in asInts)
