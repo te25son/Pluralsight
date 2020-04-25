@@ -8,7 +8,15 @@ namespace DataStructures
         {
             GenericDelegateExamples();
             EventExamples();
+            ConverterExamples();
 
+            var buffer = new Buffer<double>();
+            ProcessInput(buffer);
+            ProcessBuffer(buffer);
+        }
+
+        private static void ConverterExamples()
+        {
             var buffer = new Buffer<double>();
 
             ProcessInput(buffer);
@@ -31,8 +39,6 @@ namespace DataStructures
             {
                 Console.WriteLine($"{item} : {item.GetType()}");
             }
-
-            ProcessBuffer(buffer);
         }
 
         private static void EventExamples()
