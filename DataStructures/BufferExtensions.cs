@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 
 namespace DataStructures
 {
@@ -14,15 +15,10 @@ namespace DataStructures
             }
         }
 
-        public static IEnumerable<TOut> AsEnumerableOf<T, TOut>(
-            this IBuffer<T> buffer)
+        public static IEnumerable<TOut> Map<T, TOut>(
+            this IBuffer<T> buffer, Converter<T, TOut> converter)
         {
-            var converter = TypeDescriptor.GetConverter(typeof(T));
-            foreach (var item in buffer)
-            {
-                var result = converter.ConvertTo(item, typeof(TOut));
-                yield return (TOut)result;
-            }
+            return buffer.Select(i => converter(i));
         }
     }
 }

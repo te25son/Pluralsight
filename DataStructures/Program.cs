@@ -6,6 +6,36 @@ namespace DataStructures
     {
         static void Main(string[] args)
         {
+            GenericDelegateExamples();
+
+            var buffer = new Buffer<double>();
+
+            ProcessInput(buffer);
+
+            // Converts given buffer items to a DateTime object.
+            var asDates = buffer.Map(
+                d => new DateTime(2010, 1, 1).AddDays(d)
+            );
+
+            foreach (var date in asDates)
+            {
+                Console.WriteLine(date);
+            }
+
+            buffer.Dump(d => Console.WriteLine(d));
+
+            Converter<double, int> converter2 = d => Convert.ToInt32(d);
+            var asInts = buffer.Map(converter2);
+            foreach (var item in asInts)
+            {
+                Console.WriteLine($"{item} : {item.GetType()}");
+            }
+
+            ProcessBuffer(buffer);
+        }
+
+        private static void GenericDelegateExamples()
+        {
             // Action always returns void.
             Action<object> print = d => Console.WriteLine(d);
 
@@ -27,20 +57,6 @@ namespace DataStructures
             {
                 print($"{squaredResult} is greater than 10.");
             }
-
-            var buffer = new Buffer<double>();
-
-            ProcessInput(buffer);
-
-            buffer.Dump(d => Console.WriteLine(d));
-
-            var asInts = buffer.AsEnumerableOf<double, int>();
-            foreach (var item in asInts)
-            {
-                Console.WriteLine($"{item} : {item.GetType()}");
-            }
-
-            ProcessBuffer(buffer);
         }
 
         private static void ProcessBuffer(IBuffer<double> buffer)
