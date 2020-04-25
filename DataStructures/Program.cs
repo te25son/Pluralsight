@@ -7,6 +7,7 @@ namespace DataStructures
         static void Main(string[] args)
         {
             GenericDelegateExamples();
+            EventExamples();
 
             var buffer = new Buffer<double>();
 
@@ -32,6 +33,19 @@ namespace DataStructures
             }
 
             ProcessBuffer(buffer);
+        }
+
+        private static void EventExamples()
+        {
+            var buffer = new CircularBuffer<double>(3);
+            buffer.ItemDiscarded +=  ItemDiscarded;
+            ProcessInput(buffer);
+            ProcessBuffer(buffer);
+        }
+
+        private static void ItemDiscarded(object sender, ItemDiscardedEventArgs<double> e)
+        {
+            Console.WriteLine($"Buffer full. Discarding {e.ItemDiscarded}. Adding {e.NewItem}");
         }
 
         private static void GenericDelegateExamples()
