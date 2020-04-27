@@ -34,7 +34,7 @@ namespace QueryIt
 
         public void Add(T newEntity)
         {
-            throw new NotImplementedException();
+            _set.Add(newEntity);
         }
 
         public int Commit()
@@ -44,17 +44,17 @@ namespace QueryIt
 
         public void Delete(T entity)
         {
-            _context.Dispose();
+            throw new NotImplementedException();
         }
 
         public void Dispose()
         {
-            throw new NotImplementedException();
+            _context.Dispose();
         }
 
         public IQueryable<T> FindAll()
         {
-            throw new NotImplementedException();
+            return _set;
         }
 
         public void FindById(int Id)
