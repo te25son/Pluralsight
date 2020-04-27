@@ -1,14 +1,13 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Linq;
 
 namespace DataStructures
 {
-    public delegate void Printer<T>(T data);
-
     public static class BufferExtensions
     {
-        public static void Dump<T>(this IBuffer<T> buffer, Printer<T> print)
+        public static void Dump<T>(this IBuffer<T> buffer, Action<T> print)
         {
             foreach (var item in buffer)
             {
@@ -16,15 +15,10 @@ namespace DataStructures
             }
         }
 
-        public static IEnumerable<TOut> AsEnumerableOf<T, TOut>(
-            this IBuffer<T> buffer)
+        public static IEnumerable<TOut> Map<T, TOut>(
+            this IBuffer<T> buffer, Converter<T, TOut> converter)
         {
-            var converter = TypeDescriptor.GetConverter(typeof(T));
-            foreach (var item in buffer)
-            {
-                var result = converter.ConvertTo(item, typeof(TOut));
-                yield return (TOut)result;
-            }
+            return buffer.Select(i => converter(i));
         }
     }
 }
