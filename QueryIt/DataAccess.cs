@@ -15,7 +15,7 @@ namespace QueryIt
     {
         void Add(T newEntity);
         void Delete(T entity);
-        void FindById(int Id);
+        T FindById(int Id);
         IQueryable<T> FindAll();
         int Commit();
     }
@@ -47,7 +47,7 @@ namespace QueryIt
 
         public void Delete(T entity)
         {
-            throw new NotImplementedException();
+            _set.Remove(entity);
         }
 
         public void Dispose()
@@ -60,9 +60,9 @@ namespace QueryIt
             return _set;
         }
 
-        public void FindById(int Id)
+        public T FindById(int id)
         {
-            throw new NotImplementedException();
+            return _set.Find(id);
         }
     }
 }
