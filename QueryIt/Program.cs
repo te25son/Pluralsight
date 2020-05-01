@@ -11,16 +11,27 @@ namespace QueryIt
         {
             Database.SetInitializer(new DropCreateDatabaseAlways<EmployeeDb>());
 
-            using (IRepository<Employee> employeeRepository 
+            using (IRepository<Employee> employeeRepository
                 = new SqlRepository<Employee>(new EmployeeDb()))
             {
                 AddEmployees(employeeRepository);
+                AddManagers(employeeRepository);
                 CountEmployees(employeeRepository);
                 QueryEmployees(employeeRepository);
                 DumpPeople(employeeRepository);
             }
         }
 
+        // Treats a repository of employee as a repository of manager.
+        // Using contravariance here because I am only writing to the interface.
+        private static void AddManagers(IWriteOnlyRepository<Manager> employeeRepository)
+        {
+            employeeRepository.Add(new Manager { Name = "Brad" });
+            employeeRepository.Commit();
+        }
+
+        // Treats a repository of employee as a repository of person.
+        // Using covariance here because I am only reading from the interface.
         private static void DumpPeople(IReadOnlyRepository<Person> employeeRepository)
         {
             var employees = employeeRepository.FindAll();
