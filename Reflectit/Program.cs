@@ -15,6 +15,12 @@ namespace ReflectIt
                 genericArguments,
                 a => Console.WriteLine($"[{a.Name}]")
             );
+
+            var employee = new Employee();
+            var employeeType = typeof(Employee);
+            var methodInfo = employeeType.GetMethod("Speak");
+            methodInfo = methodInfo.MakeGenericMethod(typeof(DateTime));
+            methodInfo.Invoke(employee, null);
         }
 
         private static object CreateCollection(Type collectionType, Type itemType)
@@ -27,5 +33,10 @@ namespace ReflectIt
     public class Employee
     {
         public string Name { get; set; }
+
+        public void Speak<T>()
+        {
+            Console.WriteLine(typeof(T).Name);
+        }
     }
 }
