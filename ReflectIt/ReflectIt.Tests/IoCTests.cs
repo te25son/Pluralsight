@@ -28,5 +28,17 @@ namespace ReflectIt.Tests
 
             Assert.Equal(typeof(SqlRepository<Employee>), repository.GetType());
         }
+
+        [Fact]
+        public void CanResolveConcreteType()
+        {
+            var ioc = new Container();
+            ioc.For<ILogger>().Use<SqlServerLogger>();
+            ioc.For(typeof(IRepository<>)).Use(typeof(SqlRepository<>));
+
+            var service = ioc.Resolve<InvoiceService>();
+
+            Assert.NotNull(service);
+        }
     }
 }
