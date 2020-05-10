@@ -7,7 +7,7 @@ namespace ReflectIt.Tests
     public class IoCTests
     {
         [Fact]
-        public void Test1()
+        public void CanResolveTypes()
         {
             var ioc = new Container();
             ioc.For<ILogger>().Use<SqlServerLogger>();
@@ -15,6 +15,18 @@ namespace ReflectIt.Tests
             var logger = ioc.Resolve<ILogger>();
 
             Assert.Equal(typeof(SqlServerLogger), logger.GetType());
+        }
+
+        [Fact]
+        public void CanResolveTypesWithoutDefaultConstructors()
+        {
+            var ioc = new Container();
+            ioc.For<ILogger>().Use<SqlServerLogger>();
+            ioc.For<IRepository<Employee>>().Use<SqlRepository<Employee>>();
+
+            var repository = ioc.Resolve<IRepository<Employee>>();
+
+            Assert.Equal(typeof(SqlRepository<Employee>), repository.GetType());
         }
     }
 }
