@@ -1,3 +1,7 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Text;
+
 namespace ReflectIt
 {
     public interface ILogger
@@ -19,7 +23,6 @@ namespace ReflectIt
     {
         public SqlRepository(ILogger logger)
         {
-
         }
     }
 
