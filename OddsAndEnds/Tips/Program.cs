@@ -8,6 +8,9 @@ namespace Tips
         {
             var enumAndGenericExamples = new EnumsAndGenerics();
             enumAndGenericExamples.Examples();
+
+            var mathProblem = new MathProblem();
+            mathProblem.Examples();
         }
     }
 }
