@@ -14,6 +14,9 @@ namespace Tips
 
             var baseTypes = new BaseTypes();
             baseTypes.Examples();
+
+            var usingStatic = new GenericsAndStatics();
+            usingStatic.Examples();
         }
     }
 }
