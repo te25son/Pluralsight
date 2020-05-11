@@ -11,6 +11,9 @@ namespace Tips
 
             var mathProblem = new MathProblem();
             mathProblem.Examples();
+
+            var baseTypes = new BaseTypes();
+            baseTypes.Examples();
         }
     }
 }
