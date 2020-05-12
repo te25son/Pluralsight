@@ -23,6 +23,9 @@ namespace Features
             {
                 Console.WriteLine(enumerator.Current.Name);
             }
+
+            Console.WriteLine(sales.Count());
+            Console.WriteLine(developers.Count());
         }
     }
 }
