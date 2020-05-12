@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 16
 VisualStudioVersion = 16.0.30011.22
 MinimumVisualStudioVersion = 15.0.26124.0
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Features", "Features\Features.csproj", "{B1DDDC7F-88B0-4CED-9135-23013BCF75F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Features", "Features\Features.csproj", "{B1DDDC7F-88B0-4CED-9135-23013BCF75F5}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Queries", "Queries\Queries.csproj", "{AB4D14A0-A0EC-4CDC-A5CD-B8F2E4DA2F45}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -27,6 +29,18 @@ Global
 		{B1DDDC7F-88B0-4CED-9135-23013BCF75F5}.Release|x64.Build.0 = Release|Any CPU
 		{B1DDDC7F-88B0-4CED-9135-23013BCF75F5}.Release|x86.ActiveCfg = Release|Any CPU
 		{B1DDDC7F-88B0-4CED-9135-23013BCF75F5}.Release|x86.Build.0 = Release|Any CPU
+		{AB4D14A0-A0EC-4CDC-A5CD-B8F2E4DA2F45}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB4D14A0-A0EC-4CDC-A5CD-B8F2E4DA2F45}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB4D14A0-A0EC-4CDC-A5CD-B8F2E4DA2F45}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{AB4D14A0-A0EC-4CDC-A5CD-B8F2E4DA2F45}.Debug|x64.Build.0 = Debug|Any CPU
+		{AB4D14A0-A0EC-4CDC-A5CD-B8F2E4DA2F45}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{AB4D14A0-A0EC-4CDC-A5CD-B8F2E4DA2F45}.Debug|x86.Build.0 = Debug|Any CPU
+		{AB4D14A0-A0EC-4CDC-A5CD-B8F2E4DA2F45}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB4D14A0-A0EC-4CDC-A5CD-B8F2E4DA2F45}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB4D14A0-A0EC-4CDC-A5CD-B8F2E4DA2F45}.Release|x64.ActiveCfg = Release|Any CPU
+		{AB4D14A0-A0EC-4CDC-A5CD-B8F2E4DA2F45}.Release|x64.Build.0 = Release|Any CPU
+		{AB4D14A0-A0EC-4CDC-A5CD-B8F2E4DA2F45}.Release|x86.ActiveCfg = Release|Any CPU
+		{AB4D14A0-A0EC-4CDC-A5CD-B8F2E4DA2F45}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
