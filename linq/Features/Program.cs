@@ -8,7 +8,8 @@ namespace Features
     {
         static void Main(string[] args)
         {
-            BuiltInDelegateExamples();
+            BuiltInDelegates();
+            QuerySyntax();
 
             var developers = new Employee[]
             {
@@ -21,17 +22,32 @@ namespace Features
                 new Employee { Id = 3, Name = "Brad" }
             };
 
-            Console.WriteLine(sales.Count());
+            Console.WriteLine(sales.Count());  // Using own extension method.
             Console.WriteLine(developers.Count());
+        }
 
-            var developersWithSixCharacterNames = developers.Where(e => e.Name.Length.Equals(6));
-            foreach (var developer in developersWithSixCharacterNames)
+        public static void QuerySyntax()
+        {
+            var employees = new List<Employee>
             {
-                Console.WriteLine(developer.Name);  // Will write 'Dexter' to the console.
+                new Employee { Name = "Frodo" },
+                new Employee { Name = "Bilbo" },
+                new Employee { Name = "Samwise" }
+            };
+
+            var query = employees.Where(e => e.Name.Length.Equals(5));
+            var query2 = from employee in employees  // Same as the above query but with different syntax.
+                         where employee.Name.Length.Equals(5)
+                         orderby employee.Name
+                         select employee;
+
+            foreach (var employee in employees)
+            {
+                Console.WriteLine(employee.Name);
             }
         }
 
-        public static void BuiltInDelegateExamples()
+        public static void BuiltInDelegates()
         {
             Func<int, int> square = x => x * x;  // The last parameter of Func is the return type.
             Func<int, int, int> add = (x, y) => x + y;  // Use parenthensis when you have more than one parameter and want to use a lambda expression.
