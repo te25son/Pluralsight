@@ -20,6 +20,17 @@ namespace Queries
             //DeferredExecutionWithExceptions();
         }
 
+        public static void StreamingOperators()
+        {
+            // A streaming operator only needs to read through the source data
+            // like the sequence of movies up until the point that it produces a result.
+            // At that point, it will yield the result and jump out of the method so
+            // we can process that single item.
+
+            var query = _movies.Where(m => m.Year >= 2000) // Where is a streaming method.
+                               .OrderByDescending(m => m.Rating);  // OrderByDescending is not a streaming method.
+        }
+
         public static void DeferredExecutionWithExceptions()
         {
             // Set up Movie to throw an exception when it gets the Year.
