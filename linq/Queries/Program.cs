@@ -16,7 +16,26 @@ namespace Queries
 
         static void Main(string[] args)
         {
-            DeferredExecutionPitfall();
+            //DeferredExecutionPitfall();
+            //DeferredExecutionWithExceptions();
+        }
+
+        public static void DeferredExecutionWithExceptions()
+        {
+            // Set up Movie to throw an exception when it gets the Year.
+            var query = Enumerable.Empty<Movie>();
+
+            try
+            {
+                query = _movies.Where(m => m.Year >= 2000);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+            }
+
+            Console.WriteLine(query.Count());  // The error is triggered here because the where method
+                                               // is not called until this point. 
         }
 
         public static void DeferredExecutionPitfall()
