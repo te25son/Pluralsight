@@ -18,5 +18,14 @@ namespace Queries
                 }
             }
         }
+
+        public static IEnumerable<double> Random()
+        {
+            var random = new Random();
+            while (true)
+            {
+                yield return random.NextDouble();
+            }
+        }
     }
 }

@@ -18,6 +18,17 @@ namespace Queries
         {
             //DeferredExecutionPitfall();
             //DeferredExecutionWithExceptions();
+            NonStreamingOperators();
+        }
+
+        public static void NonStreamingOperators()
+        {
+            var numbers = MyLinq.Random().Where(n => n > 0.5).Take(10);
+
+            foreach (var number in numbers)
+            {
+                Console.WriteLine(number);
+            }
         }
 
         public static void StreamingOperators()
