@@ -53,5 +53,25 @@ namespace Cars
             Console.WriteLine(result);
             Console.WriteLine(result2);
         }
+
+        public static void ProjectingData()
+        {
+            var processor = new CarCsvProcessor("fuel.csv");
+
+            // You can project data from a large data source to a new anonymous class.
+            // This will allow you save space if you decide you don't want to use
+            // everything in the larger data set.
+            //
+            // For example...
+
+            var query = processor.List.Select(
+                c => new { c.Manufacturer, c.Name, c.Combined }  // Converts data to an anonymous data type that just has 3 properties.
+            );
+
+            foreach (var car in query)
+            {
+                Console.WriteLine($"{car.Manufacturer} {car.Name} : {car.Combined}");
+            }
+        }
     }
 }
