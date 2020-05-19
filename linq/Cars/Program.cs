@@ -18,6 +18,7 @@ namespace Cars
             }
 
             FilterBySpecificManufacturer();
+            FilterOperatorsThatReturnBoolean();
         }
 
         public static void FilterBySpecificManufacturer()
@@ -35,6 +36,22 @@ namespace Cars
             Console.WriteLine(query.First().Name);  // Gets the first element of the sequence.
             Console.WriteLine(query.FirstOrDefault().Name);  // Gets the first element of the sequence or returns a default value for the type if the sequence is empty.
 
+        }
+
+        public static void FilterOperatorsThatReturnBoolean()
+        {
+            var processor = new CarCsvProcessor("fuel.csv");
+            // Because these operators return a boolean they do not offer deferred execution.
+
+            var result = processor.List.Any(  // Do any cars have a manufacturer named Ford?
+                c => c.Manufacturer.Equals("Ford")
+            );
+            var result2 = processor.List.All(  // Do all cars have a manufacturer named Ford?
+                c => c.Manufacturer.Equals("Ford")
+            );
+
+            Console.WriteLine(result);
+            Console.WriteLine(result2);
         }
     }
 }
