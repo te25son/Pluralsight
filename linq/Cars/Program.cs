@@ -73,5 +73,26 @@ namespace Cars
                 Console.WriteLine($"{car.Manufacturer} {car.Name} : {car.Combined}");
             }
         }
+
+        public static void FlattenData()
+        {
+            var processor = new CarCsvProcessor("fuel.csv");
+            var carNames = processor.List.Select(c => c.Name);
+
+            foreach (var name in carNames)
+            {
+                foreach (var character in name)
+                {
+                    Console.WriteLine(character);
+                }
+            }
+
+            var carNameCharacters = processor.List.SelectMany(c => c.Name); // Iterates over nested sequences.
+
+            foreach (var character in carNameCharacters)
+            {
+                Console.WriteLine(character);
+            }
+        }
     }
 }
