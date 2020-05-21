@@ -97,6 +97,27 @@ namespace Cars
             }
         }
 
+        public static void JoinData()
+        {
+            var carProcessor = new CarCsvProcessor("fuel.csv");
+            var cars = carProcessor.List;
+            var manufacturers = ProcessManufacturers("manufacturers.csv");
+
+            // Using query syntax
+            var query =
+                from car in cars
+                join manufacturer in manufacturers
+                    on car.Manufacturer equals manufacturer.Name
+                orderby car.Combined descending, car.Name ascending
+                select new
+                {
+                    manufacturer.Headquarters,
+                    car.Name,
+                    car.Combined
+                };
+
+        }
+
         private static List<Manufacturer> ProcessManufacturers(string path)
         {
             var query = File.ReadAllLines(path)
