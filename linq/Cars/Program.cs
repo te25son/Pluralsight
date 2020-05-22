@@ -21,6 +21,7 @@ namespace Cars
 
             FilterBySpecificManufacturer();
             FilterOperatorsThatReturnBoolean();
+            JoinData();
         }
 
         public static void FilterBySpecificManufacturer()
@@ -91,10 +92,7 @@ namespace Cars
 
             var carNameCharacters = processor.List.SelectMany(c => c.Name); // Iterates over nested sequences.
 
-            foreach (var character in carNameCharacters)
-            {
-                Console.WriteLine(character);
-            }
+            WriteEnumerable(carNameCharacters);
         }
 
         public static void JoinData()
@@ -116,6 +114,23 @@ namespace Cars
                     car.Combined
                 };
 
+            // Using method syntax
+            var method =
+                cars.Join(
+                    inner: manufacturers,
+                    outerKeySelector: c => c.Manufacturer,  // Value that linq will join on.
+                    innerKeySelector: m => m.Name,  // Value that will match a car with a manufacturer.
+                    resultSelector: (c, m) => new  // Projects two objects that have been joined together and puts them into one.
+                    {
+                        m.Headquarters,
+                        c.Name,
+                        c.Combined
+                    })
+                    .OrderByDescending(c => c.Combined)
+                    .ThenBy(c => c.Name);
+
+            WriteEnumerable(query.Select(c => c.Name));
+            WriteEnumerable(method.Select(c => c.Name));
         }
 
         private static List<Manufacturer> ProcessManufacturers(string path)
@@ -134,6 +149,14 @@ namespace Cars
                             });
             
             return query.ToList();
+        }
+
+        private static void WriteEnumerable<T>(IEnumerable<T> list)
+        {
+            foreach (var item in list)
+            {
+                Console.WriteLine(item);
+            }
         }
     }
 }
