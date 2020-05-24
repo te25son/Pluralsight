@@ -24,7 +24,8 @@ namespace Cars
             //JoinData();
             //GroupData();
             //GroupJoinData();
-            MostFuelEfficientCarsByCountry();
+            //MostFuelEfficientCarsByCountry();
+            AggregateData();
         }
 
         public static void FilterBySpecificManufacturer()
@@ -283,6 +284,60 @@ namespace Cars
                 {
                     Console.WriteLine($"\t{car.Manufacturer} {car.Name} : {car.Combined}");
                 }
+            }
+        }
+
+        public static void AggregateData()
+        {
+            // Demonstrates the use of LINQ operators that can compute
+            // a sum, an average, or find the minimum or maximum value
+            // in a sequence.
+            //
+            // Aggregation takes a large data set and reduces it into
+            // a smaller result.
+
+            var cars = ProcessCarsFromCsv("fuel.csv");
+            var manufacturers = ProcessManufacturersFromCsv("manufacturers.csv");
+            
+            var query =
+                from car in cars
+                group car by car.Manufacturer into carGroup
+                select new
+                {
+                    Name = carGroup.Key,
+                    Max = carGroup.Max(c => c.Combined),
+                    Min = carGroup.Min(c => c.Combined),
+                    Average = carGroup.Average(c => c.Combined)
+                } into result
+                orderby result.Max descending
+                select result;
+            
+            var method =
+                cars.GroupBy(c => c.Manufacturer)
+                    .Select(g =>
+                    {
+                        var results = g.Aggregate(
+                            new CarStatistics(),
+                            (acc, c) => acc.Accumulate(c),
+                            acc => acc.Compute()
+                        );
+                        return new
+                        {
+                            Name = g.Key,
+                            results.Average,
+                            results.Min,
+                            results.Max
+                        };
+                    })
+                    .OrderByDescending(r => r.Max);
+
+
+            foreach (var result in query)
+            {
+                Console.WriteLine(result.Name);
+                Console.WriteLine($"\tMax: {result.Max}");
+                Console.WriteLine($"\tMin: {result.Min}");
+                Console.WriteLine($"\tAvg: {result.Average}");
             }
         }
 
