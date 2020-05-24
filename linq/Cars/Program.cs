@@ -19,10 +19,11 @@ namespace Cars
             //    Console.WriteLine($"{car.Name} : {car.Combined}");
             //}
 
-            // FilterBySpecificManufacturer();
-            // FilterOperatorsThatReturnBoolean();
-            // JoinData();
-            GroupData();
+            //FilterBySpecificManufacturer();
+            //FilterOperatorsThatReturnBoolean();
+            //JoinData();
+            //GroupData();
+            GroupJoinData();
         }
 
         public static void FilterBySpecificManufacturer()
@@ -194,6 +195,47 @@ namespace Cars
                     Console.WriteLine($"\t{car.Name} : {car.Combined}");
                 }
             }
+        }
+
+        public static void GroupJoinData()
+        {
+            var cars = ProcessCarsFromCsv("fuel.csv");
+            var manufacturers = ProcessManufacturersFromCsv("manufacturers.csv");
+
+            var query =
+                from manufacturer in manufacturers  // Use the manufacturer object to group cars underneath of.
+                join car in cars on manufacturer.Name equals car.Manufacturer
+                    into carGroup
+                orderby manufacturer.Name
+                select new
+                {
+                    Manufacturer = manufacturer,
+                    Cars = carGroup
+                };
+
+            var method =
+                manufacturers.GroupJoin(cars, m => m.Name, c => c.Manufacturer, (m, g) =>
+                    new
+                    {
+                        Manufacturer = m,
+                        Cars = g
+                    })
+                .OrderBy(m => m.Manufacturer.Name);
+
+            foreach (var group in method)
+            {
+                Console.WriteLine($"{group.Manufacturer.Name} : {group.Manufacturer.Headquarters}");
+                foreach (var car in group.Cars.Take(2))
+                {
+                    Console.WriteLine($"\t{car.Name} : {car.Combined}");
+                }
+            }
+        }
+
+        public static void MostFuelEfficientCarsByCountry()
+        {
+            var cars = ProcessCarsFromCsv("fuel.csv");
+            var manufacturers = ProcessManufacturersFromCsv("manufacturers.csv");
         }
 
         private static List<Manufacturer> ProcessManufacturersFromCsv(string path)
