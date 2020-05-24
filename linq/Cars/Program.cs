@@ -262,6 +262,28 @@ namespace Cars
                     Console.WriteLine($"\t{car.Manufacturer} {car.Name} : {car.Combined}");
                 }
             }
+
+            // Lecturer's solution
+            var carsByCountry_Lecturer =
+                manufacturers.GroupJoin(cars, m => m.Name, c => c.Manufacturer, (m, g) =>
+                    new
+                    {
+                        Manufacturer = m,
+                        Cars = g
+                    })
+                    .GroupBy(m => m.Manufacturer.Headquarters)
+                    .OrderBy(g => g.Key);
+
+            foreach (var group in carsByCountry_Lecturer)
+            {
+                Console.WriteLine(group.Key);
+                foreach (var car in group.SelectMany(g => g.Cars)
+                                         .OrderByDescending(c => c.Combined)
+                                         .Take(3))
+                {
+                    Console.WriteLine($"\t{car.Manufacturer} {car.Name} : {car.Combined}");
+                }
+            }
         }
 
         private static List<Manufacturer> ProcessManufacturersFromCsv(string path)
