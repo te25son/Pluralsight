@@ -133,6 +133,43 @@ namespace Cars
             WriteEnumerable(method.Select(c => c.Name));
         }
 
+        public static void JoinOnMultipleObjects()
+        {
+            var carProcessor = new CarCsvProcessor("fuel.csv");
+            var cars = carProcessor.List;
+            var manufacturers = ProcessManufacturers("manufacturers.csv");
+
+            // Using query syntax
+            var query =
+                from car in cars
+                join manufacturer in manufacturers
+                    on new { car.Manufacturer, car.Year } 
+                        equals 
+                        new { Manufacturer = manufacturer.Name, manufacturer.Year }  // The property names must be the same in each new object (Manufacturer & Year).
+                orderby car.Combined descending, car.Name ascending
+                select new
+                {
+                    manufacturer.Headquarters,
+                    car.Name,
+                    car.Combined
+                };
+
+            // Using method syntax
+            var method =
+                cars.Join(
+                    inner: manufacturers,
+                    outerKeySelector: c => new { c.Manufacturer, c.Year },  // Value that linq will join on.
+                    innerKeySelector: m => new { Manufacturer = m.Name, m.Year },  // Value that will match a car with a manufacturer.
+                    resultSelector: (c, m) => new  // Projects two objects that have been joined together and puts them into one.
+                    {
+                        m.Headquarters,
+                        c.Name,
+                        c.Combined
+                    })
+                    .OrderByDescending(c => c.Combined)
+                    .ThenBy(c => c.Name);
+        }
+
         private static List<Manufacturer> ProcessManufacturers(string path)
         {
             var query = File.ReadAllLines(path)
