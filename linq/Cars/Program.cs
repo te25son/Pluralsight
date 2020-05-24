@@ -99,7 +99,7 @@ namespace Cars
         {
             var carProcessor = new CarCsvProcessor("fuel.csv");
             var cars = carProcessor.List;
-            var manufacturers = ProcessManufacturers("manufacturers.csv");
+            var manufacturers = ProcessManufacturersFromCsv("manufacturers.csv");
 
             // Using query syntax
             var query =
@@ -137,7 +137,7 @@ namespace Cars
         {
             var carProcessor = new CarCsvProcessor("fuel.csv");
             var cars = carProcessor.List;
-            var manufacturers = ProcessManufacturers("manufacturers.csv");
+            var manufacturers = ProcessManufacturersFromCsv("manufacturers.csv");
 
             // Using query syntax
             var query =
@@ -170,7 +170,13 @@ namespace Cars
                     .ThenBy(c => c.Name);
         }
 
-        private static List<Manufacturer> ProcessManufacturers(string path)
+        public static void GroupData()
+        {
+            var cars = ProcessCarsFromCsv("fuel.csv");
+            var manufacturers = ProcessManufacturersFromCsv("manufacturers.csv");
+        }
+
+        private static List<Manufacturer> ProcessManufacturersFromCsv(string path)
         {
             var query = File.ReadAllLines(path)
                             .Where(l => l.Length > 1)
@@ -185,6 +191,30 @@ namespace Cars
                                 };
                             });
             
+            return query.ToList();
+        }
+
+        private static List<Car> ProcessCarsFromCsv(string path)
+        {
+            var query = File.ReadAllLines(path)
+                            .Skip(1)
+                            .Where(l => l.Length > 1)
+                            .Select(l =>
+                            {
+                                var columns = l.Split(',');
+                                return new Car
+                                {
+                                    Year = int.Parse(columns[0]),
+                                    Manufacturer = columns[1],
+                                    Name = columns[2],
+                                    Dispacement = double.Parse(columns[3]),
+                                    Cylinders = int.Parse(columns[4]),
+                                    City = double.Parse(columns[5]),
+                                    Highway = int.Parse(columns[6]),
+                                    Combined = int.Parse(columns[7])
+                                };
+                            });
+
             return query.ToList();
         }
 
