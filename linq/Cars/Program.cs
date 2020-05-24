@@ -23,7 +23,8 @@ namespace Cars
             //FilterOperatorsThatReturnBoolean();
             //JoinData();
             //GroupData();
-            GroupJoinData();
+            //GroupJoinData();
+            MostFuelEfficientCarsByCountry();
         }
 
         public static void FilterBySpecificManufacturer()
@@ -234,8 +235,33 @@ namespace Cars
 
         public static void MostFuelEfficientCarsByCountry()
         {
+            // Finds the most fuel efficient cars and groups them by country and displays the
+            // top three most fuel efficient cars by county.
             var cars = ProcessCarsFromCsv("fuel.csv");
             var manufacturers = ProcessManufacturersFromCsv("manufacturers.csv");
+
+            // My solution
+            var carsByCountry =
+                cars.Join(manufacturers, c => c.Manufacturer, m => m.Name, (c, m) =>
+                    new
+                    {
+                        Country = m.Headquarters,
+                        c.Manufacturer,
+                        c.Name,
+                        c.Combined
+                    })
+                .GroupBy(c => c.Country)
+                .OrderBy(g => g.Key)
+                .ToList();
+
+            foreach (var group in carsByCountry)
+            {
+                Console.WriteLine(group.Key);
+                foreach (var car in group.OrderByDescending(c => c.Combined).Take(3))
+                {
+                    Console.WriteLine($"\t{car.Manufacturer} {car.Name} : {car.Combined}");
+                }
+            }
         }
 
         private static List<Manufacturer> ProcessManufacturersFromCsv(string path)
