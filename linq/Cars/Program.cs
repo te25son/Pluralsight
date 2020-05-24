@@ -9,19 +9,20 @@ namespace Cars
     {
         static void Main(string[] args)
         {
-            var processor = new CarCsvProcessor("fuel.csv");
-            var cars = processor.List;
-            var query = cars.OrderByDescending(c => c.Combined)
-                            .ThenBy(c => c.Name);
+            //var processor = new CarCsvProcessor("fuel.csv");
+            //var cars = processor.List;
+            //var query = cars.OrderByDescending(c => c.Combined)
+            //                .ThenBy(c => c.Name);
 
-            foreach (var car in query.Take(10))
-            {
-                Console.WriteLine($"{car.Name} : {car.Combined}");
-            }
+            //foreach (var car in query.Take(10))
+            //{
+            //    Console.WriteLine($"{car.Name} : {car.Combined}");
+            //}
 
-            FilterBySpecificManufacturer();
-            FilterOperatorsThatReturnBoolean();
-            JoinData();
+            // FilterBySpecificManufacturer();
+            // FilterOperatorsThatReturnBoolean();
+            // JoinData();
+            GroupData();
         }
 
         public static void FilterBySpecificManufacturer()
@@ -174,6 +175,25 @@ namespace Cars
         {
             var cars = ProcessCarsFromCsv("fuel.csv");
             var manufacturers = ProcessManufacturersFromCsv("manufacturers.csv");
+
+            var query =
+                from car in cars
+                group car by car.Manufacturer.ToUpper() into manufacturer
+                orderby manufacturer.Key
+                select manufacturer;
+
+            var method =
+                cars.GroupBy(c => c.Manufacturer.ToUpper())
+                    .OrderBy(g => g.Key);
+
+            foreach (var group in query)
+            {
+                Console.WriteLine(group.Key);
+                foreach (var car in group.OrderByDescending(c => c.Combined).Take(2))
+                {
+                    Console.WriteLine($"\t{car.Name} : {car.Combined}");
+                }
+            }
         }
 
         private static List<Manufacturer> ProcessManufacturersFromCsv(string path)
