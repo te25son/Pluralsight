@@ -6,7 +6,9 @@ namespace Cars
 {
     class Program
     {
-        public static CsvProcessor ProgramProcessor { get { return new CsvProcessor(); } }
+        public static CsvProcessor Processor = new CsvProcessor();
+
+        public static LinqToXml LinqXmlExamples = new LinqToXml();
 
         static void Main(string[] args)
         {
@@ -26,7 +28,9 @@ namespace Cars
             //GroupData();
             //GroupJoinData();
             //MostFuelEfficientCarsByCountry();
-            AggregateData();
+            //AggregateData();
+
+            LinqXmlExamples.BuildElementOrientedXml();
         }
 
         public static void FilterBySpecificManufacturer()
@@ -104,7 +108,7 @@ namespace Cars
         {
             var carProcessor = new CarCsvProcessor("fuel.csv");
             var cars = carProcessor.List;
-            var manufacturers = ProgramProcessor.ProcessManufacturersFromCsv("manufacturers.csv");
+            var manufacturers = Processor.ProcessManufacturersFromCsv("manufacturers.csv");
 
             // Using query syntax
             var query =
@@ -142,7 +146,7 @@ namespace Cars
         {
             var carProcessor = new CarCsvProcessor("fuel.csv");
             var cars = carProcessor.List;
-            var manufacturers = ProgramProcessor.ProcessManufacturersFromCsv("manufacturers.csv");
+            var manufacturers = Processor.ProcessManufacturersFromCsv("manufacturers.csv");
 
             // Using query syntax
             var query =
@@ -177,8 +181,8 @@ namespace Cars
 
         public static void GroupData()
         {
-            var cars = ProgramProcessor.ProcessCarsFromCsv("fuel.csv");
-            var manufacturers = ProgramProcessor.ProcessManufacturersFromCsv("manufacturers.csv");
+            var cars = Processor.ProcessCarsFromCsv("fuel.csv");
+            var manufacturers = Processor.ProcessManufacturersFromCsv("manufacturers.csv");
 
             var query =
                 from car in cars
@@ -202,8 +206,8 @@ namespace Cars
 
         public static void GroupJoinData()
         {
-            var cars = ProgramProcessor.ProcessCarsFromCsv("fuel.csv");
-            var manufacturers = ProgramProcessor.ProcessManufacturersFromCsv("manufacturers.csv");
+            var cars = Processor.ProcessCarsFromCsv("fuel.csv");
+            var manufacturers = Processor.ProcessManufacturersFromCsv("manufacturers.csv");
 
             var query =
                 from manufacturer in manufacturers  // Use the manufacturer object to group cars underneath of.
@@ -239,8 +243,8 @@ namespace Cars
         {
             // Finds the most fuel efficient cars and groups them by country and displays the
             // top three most fuel efficient cars by county.
-            var cars = ProgramProcessor.ProcessCarsFromCsv("fuel.csv");
-            var manufacturers = ProgramProcessor.ProcessManufacturersFromCsv("manufacturers.csv");
+            var cars = Processor.ProcessCarsFromCsv("fuel.csv");
+            var manufacturers = Processor.ProcessManufacturersFromCsv("manufacturers.csv");
 
             // My solution
             var carsByCountry =
@@ -297,8 +301,8 @@ namespace Cars
             // Aggregation takes a large data set and reduces it into
             // a smaller result.
 
-            var cars = ProgramProcessor.ProcessCarsFromCsv("fuel.csv");
-            var manufacturers = ProgramProcessor.ProcessManufacturersFromCsv("manufacturers.csv");
+            var cars = Processor.ProcessCarsFromCsv("fuel.csv");
+            var manufacturers = Processor.ProcessManufacturersFromCsv("manufacturers.csv");
             
             var query =
                 from car in cars
