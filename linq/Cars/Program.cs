@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Xml.Linq;
 
 namespace Cars
 {
     class Program
     {
+        public static Processor ProgramProcessor { get { return new Processor(); } }
+
         static void Main(string[] args)
         {
             //var processor = new CarCsvProcessor("fuel.csv");
@@ -104,7 +104,7 @@ namespace Cars
         {
             var carProcessor = new CarCsvProcessor("fuel.csv");
             var cars = carProcessor.List;
-            var manufacturers = ProcessManufacturersFromCsv("manufacturers.csv");
+            var manufacturers = ProgramProcessor.ProcessManufacturersFromCsv("manufacturers.csv");
 
             // Using query syntax
             var query =
@@ -142,7 +142,7 @@ namespace Cars
         {
             var carProcessor = new CarCsvProcessor("fuel.csv");
             var cars = carProcessor.List;
-            var manufacturers = ProcessManufacturersFromCsv("manufacturers.csv");
+            var manufacturers = ProgramProcessor.ProcessManufacturersFromCsv("manufacturers.csv");
 
             // Using query syntax
             var query =
@@ -177,8 +177,8 @@ namespace Cars
 
         public static void GroupData()
         {
-            var cars = ProcessCarsFromCsv("fuel.csv");
-            var manufacturers = ProcessManufacturersFromCsv("manufacturers.csv");
+            var cars = ProgramProcessor.ProcessCarsFromCsv("fuel.csv");
+            var manufacturers = ProgramProcessor.ProcessManufacturersFromCsv("manufacturers.csv");
 
             var query =
                 from car in cars
@@ -202,8 +202,8 @@ namespace Cars
 
         public static void GroupJoinData()
         {
-            var cars = ProcessCarsFromCsv("fuel.csv");
-            var manufacturers = ProcessManufacturersFromCsv("manufacturers.csv");
+            var cars = ProgramProcessor.ProcessCarsFromCsv("fuel.csv");
+            var manufacturers = ProgramProcessor.ProcessManufacturersFromCsv("manufacturers.csv");
 
             var query =
                 from manufacturer in manufacturers  // Use the manufacturer object to group cars underneath of.
@@ -239,8 +239,8 @@ namespace Cars
         {
             // Finds the most fuel efficient cars and groups them by country and displays the
             // top three most fuel efficient cars by county.
-            var cars = ProcessCarsFromCsv("fuel.csv");
-            var manufacturers = ProcessManufacturersFromCsv("manufacturers.csv");
+            var cars = ProgramProcessor.ProcessCarsFromCsv("fuel.csv");
+            var manufacturers = ProgramProcessor.ProcessManufacturersFromCsv("manufacturers.csv");
 
             // My solution
             var carsByCountry =
@@ -297,8 +297,8 @@ namespace Cars
             // Aggregation takes a large data set and reduces it into
             // a smaller result.
 
-            var cars = ProcessCarsFromCsv("fuel.csv");
-            var manufacturers = ProcessManufacturersFromCsv("manufacturers.csv");
+            var cars = ProgramProcessor.ProcessCarsFromCsv("fuel.csv");
+            var manufacturers = ProgramProcessor.ProcessManufacturersFromCsv("manufacturers.csv");
             
             var query =
                 from car in cars
@@ -340,48 +340,6 @@ namespace Cars
                 Console.WriteLine($"\tMin: {result.Min}");
                 Console.WriteLine($"\tAvg: {result.Average}");
             }
-        }
-
-        private static List<Manufacturer> ProcessManufacturersFromCsv(string path)
-        {
-            var query = File.ReadAllLines(path)
-                            .Where(l => l.Length > 1)
-                            .Select(l =>
-                            {
-                                var columns = l.Split(',');
-                                return new Manufacturer
-                                {
-                                    Name = columns[0],
-                                    Headquarters = columns[1],
-                                    Year = int.Parse(columns[2])
-                                };
-                            });
-            
-            return query.ToList();
-        }
-
-        private static List<Car> ProcessCarsFromCsv(string path)
-        {
-            var query = File.ReadAllLines(path)
-                            .Skip(1)
-                            .Where(l => l.Length > 1)
-                            .Select(l =>
-                            {
-                                var columns = l.Split(',');
-                                return new Car
-                                {
-                                    Year = int.Parse(columns[0]),
-                                    Manufacturer = columns[1],
-                                    Name = columns[2],
-                                    Dispacement = double.Parse(columns[3]),
-                                    Cylinders = int.Parse(columns[4]),
-                                    City = double.Parse(columns[5]),
-                                    Highway = int.Parse(columns[6]),
-                                    Combined = int.Parse(columns[7])
-                                };
-                            });
-
-            return query.ToList();
         }
 
         private static void WriteEnumerable<T>(IEnumerable<T> list)
