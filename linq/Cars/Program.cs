@@ -6,7 +6,7 @@ namespace Cars
 {
     class Program
     {
-        public static Processor ProgramProcessor { get { return new Processor(); } }
+        public static CsvProcessor ProgramProcessor { get { return new CsvProcessor(); } }
 
         static void Main(string[] args)
         {

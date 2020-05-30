@@ -7,7 +7,7 @@ namespace Cars
 {
     public class LinqToXml
     {
-        public Processor Processor = new Processor();
+        public CsvProcessor Processor = new CsvProcessor();
 
         public void BuildElementOrientedXml()
         {

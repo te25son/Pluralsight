@@ -6,7 +6,7 @@ using System.Text;
 
 namespace Cars
 {
-    public class Processor
+    public class CsvProcessor
     {
         public List<Manufacturer> ProcessManufacturersFromCsv(string path)
         {
