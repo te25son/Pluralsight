@@ -30,7 +30,8 @@ namespace Cars
             //MostFuelEfficientCarsByCountry();
             //AggregateData();
 
-            LinqXmlExamples.BuildElementOrientedXml();
+            LinqXmlExamples.CreateXml();
+            LinqXmlExamples.QueryXml();
         }
 
         public static void FilterBySpecificManufacturer()

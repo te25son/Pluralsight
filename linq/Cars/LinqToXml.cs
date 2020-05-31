@@ -10,7 +10,7 @@ namespace Cars
     {
         public CsvProcessor Processor = new CsvProcessor();
 
-        public void BuildElementOrientedXml()
+        public void CreateXml()
         {
             var records = Processor.ProcessCarsFromCsv("fuel.csv");
             var document = new XDocument();
@@ -27,6 +27,20 @@ namespace Cars
 
             document.Add(cars);
             document.Save("Fuel.xml");
+        }
+
+        public void QueryXml()
+        {
+            var document = XDocument.Load("fuel.xml");
+            var query =
+                from element in document.Element("Cars").Elements("Car")
+                where element.Attribute("Manufacturer").Value.Equals("BMW")
+                select element.Attribute("Name").Value;
+
+            foreach(var car in query)
+            {
+                Console.WriteLine(car);
+            }
         }
     }
 }
