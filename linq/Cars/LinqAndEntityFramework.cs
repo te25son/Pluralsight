@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Text;
 using System.Linq;
 using System.Data.Entity;
+using System.Runtime.InteropServices;
 
 namespace Cars
 {
@@ -43,6 +44,34 @@ namespace Cars
             foreach (var car in method)
             {
                 Console.WriteLine($"{car.Name} : {car.Combined}");
+            }
+
+            var advancedQuery =
+                db.Cars.GroupBy(c => c.Manufacturer)
+                       .Select(g => new
+                       {
+                           Name = g.Key,
+                           Cars = g.OrderByDescending(c => c.Combined).Take(2)
+                       });
+
+            var advancedQuery2 =
+                from car in db.Cars
+                group car by car.Manufacturer into manufacturer
+                select new
+                {
+                    Name = manufacturer.Key,
+                    Cars = (from car in manufacturer
+                            orderby car.Combined descending
+                            select car).Take(2)
+                };
+
+            foreach (var group in advancedQuery2)
+            {
+                Console.WriteLine(group.Name);
+                foreach (var car in group.Cars)
+                {
+                    Console.WriteLine($"\t{car.Name} : {car.Combined}");
+                }
             }
         }
     }
