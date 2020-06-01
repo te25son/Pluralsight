@@ -32,13 +32,12 @@ namespace Cars
             var db = new CarDb();
             db.Database.Log = Console.WriteLine;
 
-            var query =
-                from car in db.Cars
-                orderby car.Combined descending, car.Name ascending
-                select car;
-
             var method =
-                db.Cars.OrderByDescending(c => c.Combined).ThenBy(c => c.Name).Take(10);
+                db.Cars.Where(c => c.Manufacturer.Equals("BMW"))
+                       .OrderByDescending(c => c.Combined)
+                       .ThenBy(c => c.Name)
+                       .ToList()
+                       .Take(10);
 
             foreach (var car in method)
             {
