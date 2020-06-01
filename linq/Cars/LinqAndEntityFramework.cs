@@ -30,12 +30,17 @@ namespace Cars
         public void QueryData()
         {
             var db = new CarDb();
+            db.Database.Log = Console.WriteLine;
+
             var query =
                 from car in db.Cars
                 orderby car.Combined descending, car.Name ascending
                 select car;
 
-            foreach (var car in query)
+            var method =
+                db.Cars.OrderByDescending(c => c.Combined).ThenBy(c => c.Name).Take(10);
+
+            foreach (var car in method)
             {
                 Console.WriteLine($"{car.Name} : {car.Combined}");
             }
