@@ -26,5 +26,19 @@ namespace Cars
                 db.SaveChanges();
             }
         }
+
+        public void QueryData()
+        {
+            var db = new CarDb();
+            var query =
+                from car in db.Cars
+                orderby car.Combined descending, car.Name ascending
+                select car;
+
+            foreach (var car in query)
+            {
+                Console.WriteLine($"{car.Name} : {car.Combined}");
+            }
+        }
     }
 }

@@ -36,6 +36,7 @@ namespace Cars
             //LinqXmlExamples.QueryXml();
 
             LinqEntityFramework.InsertData();
+            LinqEntityFramework.QueryData();
         }
 
         public static void FilterBySpecificManufacturer()
