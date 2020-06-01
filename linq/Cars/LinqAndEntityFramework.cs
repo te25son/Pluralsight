@@ -36,9 +36,10 @@ namespace Cars
                 db.Cars.Where(c => c.Manufacturer.Equals("BMW"))
                        .OrderByDescending(c => c.Combined)
                        .ThenBy(c => c.Name)
-                       .ToList()
-                       .Take(10);
+                       .Take(10)
+                       .ToList();  // This ultimately forces the query to run and saves it in case you need to use the data within the query again.
 
+            Console.WriteLine(method.Count());  // Without calling ToList at the end of the query, Count would force the query to run twice.
             foreach (var car in method)
             {
                 Console.WriteLine($"{car.Name} : {car.Combined}");
