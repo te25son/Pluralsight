@@ -10,6 +10,8 @@ namespace Cars
 
         public static LinqToXml LinqXmlExamples = new LinqToXml();
 
+        public static LinqAndEntityFramework LinqEntityFramework = new LinqAndEntityFramework();
+
         static void Main(string[] args)
         {
             //var processor = new CarCsvProcessor("fuel.csv");
@@ -30,8 +32,10 @@ namespace Cars
             //MostFuelEfficientCarsByCountry();
             //AggregateData();
 
-            LinqXmlExamples.CreateXml();
-            LinqXmlExamples.QueryXml();
+            //LinqXmlExamples.CreateXml();
+            //LinqXmlExamples.QueryXml();
+
+            LinqEntityFramework.InsertData();
         }
 
         public static void FilterBySpecificManufacturer()
