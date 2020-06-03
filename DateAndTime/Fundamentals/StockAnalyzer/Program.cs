@@ -9,6 +9,11 @@ namespace StockAnalyzer
     {
         static void Main(string[] args)
         {
+            UseCultureInfo();
+        }
+
+        public static void UseCultureInfo()
+        {
             var lines = File.ReadAllLines(@"StockData.csv");
 
             foreach (var line in lines.Skip(1))
@@ -18,10 +23,15 @@ namespace StockAnalyzer
                 var tradeDateWithCulture = DateTime.Parse(segments[1], CultureInfo.GetCultureInfo("en-US"));  // Overload method can get date and time from other cultures.
 
                 Console.WriteLine("Local Time:");
-                Console.WriteLine("\t" +  tradeDate.ToLongDateString());
+                Console.WriteLine("\t" + tradeDate.ToLongDateString());
                 Console.WriteLine("USA Time:");
                 Console.WriteLine("\t" + tradeDateWithCulture.ToLongDateString());
             }
+        }
+
+        public static void ConvertBetweenTimeZones()
+        {
+
         }
     }
 }
