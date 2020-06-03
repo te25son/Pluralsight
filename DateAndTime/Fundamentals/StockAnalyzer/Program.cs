@@ -10,6 +10,7 @@ namespace StockAnalyzer
         static void Main(string[] args)
         {
             UseCultureInfo();
+            ConvertBetweenTimeZones();
         }
 
         public static void UseCultureInfo()
@@ -31,7 +32,12 @@ namespace StockAnalyzer
 
         public static void ConvertBetweenTimeZones()
         {
+            var now = DateTime.Now;
+            var sydneyTimeZone = TimeZoneInfo.FindSystemTimeZoneById("E. Australia Standard Time");
+            var sydneyTime = TimeZoneInfo.ConvertTime(now, sydneyTimeZone);
 
+            Console.WriteLine(now);
+            Console.WriteLine(sydneyTime);
         }
     }
 }
