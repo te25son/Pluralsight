@@ -11,6 +11,7 @@ namespace StockAnalyzer
         {
             UseCultureInfo();
             ConvertBetweenTimeZones();
+            Offset();
         }
 
         public static void UseCultureInfo()
@@ -38,6 +39,27 @@ namespace StockAnalyzer
 
             Console.WriteLine(now);
             Console.WriteLine(sydneyTime);
+        }
+
+        public static void Offset()
+        {
+            // DateTimeOffset provides us with information on the date and time
+            // as well as the timezone which the date and time were created for.
+
+            var timeWithOffeset = DateTimeOffset.Now;
+
+            Console.WriteLine(DateTime.Now);
+            Console.WriteLine(timeWithOffeset);
+
+            // Displays all timezones which are equal to the current system's timezone
+            // without taking daylight savings into consideration.
+            foreach (var timeZone in TimeZoneInfo.GetSystemTimeZones())
+            {
+                if (timeZone.GetUtcOffset(timeWithOffeset) == timeWithOffeset.Offset)
+                {
+                    Console.WriteLine(timeZone);
+                }
+            }
         }
     }
 }
