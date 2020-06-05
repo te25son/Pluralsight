@@ -12,6 +12,7 @@ namespace StockAnalyzer
             UseCultureInfo();
             ConvertBetweenTimeZones();
             Offset();
+            ParsingDates();
         }
 
         public static void UseCultureInfo()
@@ -60,6 +61,19 @@ namespace StockAnalyzer
                     Console.WriteLine(timeZone);
                 }
             }
+        }
+
+        public static void ParsingDates()
+        {
+            var date = "9/10/2019 10:00:00 PM";
+            var parsedDate = DateTime.ParseExact(date, "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
+            
+            Console.WriteLine(parsedDate);
+
+            var date2 = "2019-07-01 10:00:00 PM +02:00";
+            var parsedDate2 = DateTime.Parse(date2, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal);
+
+            Console.WriteLine(parsedDate2);
         }
     }
 }
