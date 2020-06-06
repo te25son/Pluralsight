@@ -13,6 +13,7 @@ namespace StockAnalyzer
             ConvertBetweenTimeZones();
             Offset();
             ParsingDates();
+            FormatDates();
         }
 
         public static void UseCultureInfo()
@@ -74,6 +75,16 @@ namespace StockAnalyzer
             var parsedDate2 = DateTime.Parse(date2, CultureInfo.InvariantCulture, DateTimeStyles.AdjustToUniversal);
 
             Console.WriteLine(parsedDate2);
+        }
+
+        public static void FormatDates()
+        {
+            var date = "9/10/2019 10:00:00 PM";
+            var parsedDate = DateTimeOffset.ParseExact(date, "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
+            parsedDate = parsedDate.ToOffset(TimeSpan.FromHours(10));  // Now has 10 hour offset from UTC.
+            var formattedDate = parsedDate.ToString("o");
+
+            Console.WriteLine(formattedDate);
         }
     }
 }
