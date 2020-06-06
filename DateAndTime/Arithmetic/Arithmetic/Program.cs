@@ -5,7 +5,15 @@ namespace Arithmetic
 {
     class Program
     {
+        static Calendar calendar = CultureInfo.InvariantCulture.Calendar;
+
         static void Main(string[] args)
+        {
+            DifferenceBetweenDates();
+            GetWeekNumber();
+        }
+
+        static void DifferenceBetweenDates()
         {
             var timeSpan = new TimeSpan(60, 100, 200);
 
@@ -19,6 +27,18 @@ namespace Arithmetic
             var difference = end - start;
 
             Console.WriteLine(difference.TotalMinutes);
+        }
+
+        static void GetWeekNumber()
+        {
+            var start = new DateTimeOffset(2007, 12, 31, 0, 0, 0, TimeSpan.Zero);
+            var week = calendar.GetWeekOfYear(start.DateTime, CalendarWeekRule.FirstFourDayWeek, DayOfWeek.Monday);
+
+            Console.WriteLine(week);
+
+            var isoWeek = ISOWeek.GetWeekOfYear(start.DateTime);
+
+            Console.WriteLine(isoWeek);
         }
     }
 }
