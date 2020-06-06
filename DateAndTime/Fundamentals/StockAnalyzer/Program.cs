@@ -14,6 +14,7 @@ namespace StockAnalyzer
             Offset();
             ParsingDates();
             FormatDates();
+            WorkingWithUtc();
         }
 
         public static void UseCultureInfo()
@@ -82,9 +83,24 @@ namespace StockAnalyzer
             var date = "9/10/2019 10:00:00 PM";
             var parsedDate = DateTimeOffset.ParseExact(date, "M/d/yyyy h:mm:ss tt", CultureInfo.InvariantCulture);
             parsedDate = parsedDate.ToOffset(TimeSpan.FromHours(10));  // Now has 10 hour offset from UTC.
-            var formattedDate = parsedDate.ToString("o");
+            var formattedDate = parsedDate.ToString("o");  // Converts time to ISO 8601 standard.
 
             Console.WriteLine(formattedDate);
+        }
+
+        public static void WorkingWithUtc()
+        {
+            var now = DateTimeOffset.UtcNow;  // DateTimeOffset displayes the UTC offset
+            var nowNoOffset = DateTime.UtcNow;  // DateTime does not display the UTC offset
+
+            Console.WriteLine($"Utc now with DateTimeOffset looks like - {now}");
+            Console.WriteLine($"Utc now with DateTime looks like - {nowNoOffset}");
+
+            var localTime = now.ToLocalTime();
+            var universalTime = localTime.ToUniversalTime();
+
+            Console.WriteLine(localTime);
+            Console.WriteLine(universalTime);
         }
     }
 }
