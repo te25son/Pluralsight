@@ -11,6 +11,7 @@ namespace Arithmetic
         {
             DifferenceBetweenDates();
             GetWeekNumber();
+            ExtendingDates();
         }
 
         static void DifferenceBetweenDates()
@@ -39,6 +40,17 @@ namespace Arithmetic
             var isoWeek = ISOWeek.GetWeekOfYear(start.DateTime);
 
             Console.WriteLine(isoWeek);
+        }
+
+        static void ExtendingDates()
+        {
+            var contractDate = new DateTimeOffset(2019, 7, 1, 0, 0, 0, TimeSpan.Zero);
+
+            Console.WriteLine(contractDate);
+
+            contractDate = contractDate.AddMonths(6);
+
+            Console.WriteLine(contractDate);
         }
     }
 }
