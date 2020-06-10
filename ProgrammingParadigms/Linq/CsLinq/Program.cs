@@ -9,6 +9,8 @@ namespace CsLinq
         {
             ExtensionMethods.ExampleOne();
             ExtensionMethods.ExampleTwo();
+
+            ExtensionsAndLambdas.ExampleOne();
         }
     }
 }

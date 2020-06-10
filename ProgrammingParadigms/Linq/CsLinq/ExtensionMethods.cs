@@ -57,5 +57,24 @@ namespace Extensions
                 }
             }
         }
+
+        public static IEnumerable<T> Filter<T>(this IEnumerable<T> input, Predicate<T> predicate)
+        {
+            foreach (var item in input)
+            {
+                if (predicate(item))
+                {
+                    yield return item;
+                }
+            }
+        }
+
+        public static void WriteForEach<T>(this IEnumerable<T> input)
+        {
+            foreach (var item in input)
+            {
+                Console.WriteLine(item);
+            }
+        }
     }
 }
