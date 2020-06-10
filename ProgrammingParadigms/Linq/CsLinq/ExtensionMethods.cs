@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Extensions;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
@@ -20,7 +21,13 @@ namespace CsLinq
 
         public static void ExampleTwo()
         {
-            IEnumerable<string> cities = new[] { "Ghent", "London", "Las Vegas", "Hyderabad" };
+            var cities = new[] { "Ghent", "London", "Las Vegas", "Hyderabad" };
+            var query = cities.StringsThatStartWith("L");
+
+            foreach (var city in query)
+            {
+                Console.WriteLine(city);
+            }
         }
     }
 
@@ -31,6 +38,24 @@ namespace CsLinq
         public static int DaysToEndOfMonth(this DateTime date)
         {
             return DateTime.DaysInMonth(date.Year, date.Month) - date.Day;
+        }
+    }
+}
+
+namespace Extensions
+{
+    public static class FilterExtensions
+    {
+        public static IEnumerable<string> StringsThatStartWith(this IEnumerable<string> input, string start)
+        {
+            foreach (var s in input)
+            {
+                if (s.StartsWith(start))
+                {
+                    // 'yield return' generates an Ienumerable in the background.
+                    yield return s;
+                }
+            }
         }
     }
 }

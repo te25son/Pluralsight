@@ -7,6 +7,8 @@ namespace CsLinq
     {
         static void Main(string[] args)
         {
+            ExtensionMethods.ExampleOne();
+            ExtensionMethods.ExampleTwo();
         }
     }
 }
