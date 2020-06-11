@@ -1,5 +1,7 @@
-﻿using System;
+﻿using Extensions;
+using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace CsLinq
@@ -19,6 +21,14 @@ namespace CsLinq
             
             Console.WriteLine(square(2));
             Console.WriteLine(areEqual(2, 3));
+        }
+
+        public static void ExampleTwo()
+        {
+            var query = CitiesList.Where(c => c.StartsWith("L"))
+                                  .OrderByDescending(c => c.Length);
+
+            query.WriteForEach();
         }
     }
 }

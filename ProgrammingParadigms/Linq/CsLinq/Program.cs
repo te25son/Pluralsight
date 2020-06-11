@@ -15,6 +15,7 @@ namespace CsLinq
             ExtensionsAndLambdas.ExampleOne();
 
             LambdasAndFuncs.ExampleOne();
+            LambdasAndFuncs.ExampleTwo();
         }
     }
 }
