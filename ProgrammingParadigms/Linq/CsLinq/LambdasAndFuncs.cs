@@ -28,7 +28,14 @@ namespace CsLinq
             var query = CitiesList.Where(c => c.StartsWith("L"))
                                   .OrderByDescending(c => c.Length);
 
+            var comprehensionQuery =
+                from city in CitiesList
+                where city.StartsWith("L")
+                orderby city.Length descending
+                select city;
+
             query.WriteForEach();
+            comprehensionQuery.WriteForEach();
         }
     }
 }

@@ -14,8 +14,14 @@ namespace CsLinq
         public static void ExampleOne()
         {
             var query = CitiesList.Filter(c => c.StartsWith("L"));
+            var comprehensionQuery =
+                from city in CitiesList
+                where city.StartsWith("L")
+                where city.Length.Equals(6)
+                select city;
 
             query.WriteForEach();
+            comprehensionQuery.WriteForEach();
         }
     }
 }
