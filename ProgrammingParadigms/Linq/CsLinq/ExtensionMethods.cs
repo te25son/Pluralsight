@@ -5,7 +5,7 @@ using System.Text;
 
 namespace CsLinq
 {
-    public class ExtensionMethods
+    public class ExtensionMethods : Program
     {
         // Extension Method:
         // Method that looks like it's a method of a given type,
@@ -21,13 +21,8 @@ namespace CsLinq
 
         public static void ExampleTwo()
         {
-            var cities = new[] { "Ghent", "London", "Las Vegas", "Hyderabad" };
-            var query = cities.StringsThatStartWith("L");
-
-            foreach (var city in query)
-            {
-                Console.WriteLine(city);
-            }
+            var query = CitiesList.StringsThatStartWith("L");
+            query.WriteForEach();
         }
     }
 
@@ -69,12 +64,17 @@ namespace Extensions
             }
         }
 
-        public static void WriteForEach<T>(this IEnumerable<T> input)
+        public static void ForEach<T>(this IEnumerable<T> input, Action<T> action)
         {
             foreach (var item in input)
             {
-                Console.WriteLine(item);
+                action(item);
             }
+        }
+
+        public static void WriteForEach<T>(this IEnumerable<T> input)
+        {
+            input.ForEach(i => Console.WriteLine(i));
         }
     }
 }

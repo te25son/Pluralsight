@@ -3,14 +3,18 @@ using System.Collections.Generic;
 
 namespace CsLinq
 {
-    class Program
+    public class Program
     {
+        public static IEnumerable<string> CitiesList = new[] { "Ghent", "London", "Las Vegas", "Hyderabad" };
+
         static void Main(string[] args)
         {
             ExtensionMethods.ExampleOne();
             ExtensionMethods.ExampleTwo();
 
             ExtensionsAndLambdas.ExampleOne();
+
+            LambdasAndFuncs.ExampleOne();
         }
     }
 }
