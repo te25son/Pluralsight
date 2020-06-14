@@ -30,56 +30,74 @@ namespace CsOop
         }
     }
 
-    public class StockQuoteFileLoader : StockQuoteLoader
+    public interface IDataLoader
+    {
+        string LoadData();
+    }
+
+    public class FileLoader : IDataLoader
     {
         private readonly string FilePath;
 
-        public StockQuoteFileLoader(string filePath)
+        public FileLoader(string filePath)
         {
             FilePath = filePath;
         }
 
-        protected override string[] GetData()
+        public string LoadData()
         {
-            return File.ReadAllLines(FilePath);
+            return File.ReadAllText(FilePath);
         }
     }
 
-    public class StockQuoteWebLoader : StockQuoteLoader
+    public class WebLoader : IDataLoader
     {
         private readonly string Url;
 
-        public StockQuoteWebLoader(string url)
+        public WebLoader(string url)
         {
             Url = url;
         }
 
-        protected override string[] GetData()
+        public string LoadData()
         {
             var client = new WebClient();
-            return client.DownloadString(new Uri(Url)).Split('\n');
+            return client.DownloadString(new Uri(Url));
         }
     }
 
-    public abstract class StockQuoteLoader
+    public class StockQuoteCsvParser
     {
-        protected abstract string[] GetData();
+        IDataLoader Loader;
+
+        public StockQuoteCsvParser(string source)
+        {
+            if (source.ToLower().StartsWith("HTTP"))
+            {
+                Loader = new WebLoader(source);
+            }
+            else
+            {
+                Loader = new FileLoader(source);
+            }
+        }
 
         public IEnumerable<StockQuote> Load()
         {
-            return GetData().Skip(1)
-                       .Select(l => l.Replace("-", "/").Split(','))
-                       .Where(i => i[0].Length > 0)
-                       .Select(i =>
-                           new StockQuote()
-                           {
-                               Date = DateTime.Parse(i[0], CultureInfo.InvariantCulture),
-                               Open = decimal.Parse(i[1]),
-                               High = decimal.Parse(i[2]),
-                               Low = decimal.Parse(i[3]),
-                               Close = decimal.Parse(i[4]),
-                           }
-                       );
+            var csvData = Loader.LoadData().Split('\n');
+
+            return
+                from line in csvData.Skip(1)
+                let data = line.Replace("-", "/").Split(',')
+                where data[0].Length > 0
+                select new StockQuote()
+                {
+                    Date = DateTime.Parse(data[0], CultureInfo.InvariantCulture),
+                    Open = decimal.Parse(data[1]),
+                    High = decimal.Parse(data[2]),
+                    Low = decimal.Parse(data[3]),
+                    Close = decimal.Parse(data[4])
+                };
         }
     }
 
@@ -128,19 +146,12 @@ namespace CsOop
 
     public class StockQuoteAnalyzer
     {
-        private readonly StockQuoteLoader Loader;
+        private readonly StockQuoteCsvParser Loader;
         private readonly List<StockQuote> Quotes;
 
         public StockQuoteAnalyzer(string urlOrFilePath)
         {
-            if (urlOrFilePath.ToLower().StartsWith("http"))
-            {
-                Loader = new StockQuoteWebLoader(urlOrFilePath);
-            }
-            else
-            {
-                Loader = new StockQuoteFileLoader(urlOrFilePath);
-            }
+            Loader = new StockQuoteCsvParser(urlOrFilePath);
             Quotes = Loader.Load().ToList();
         }
 
