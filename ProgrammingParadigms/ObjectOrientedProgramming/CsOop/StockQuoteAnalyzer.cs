@@ -5,13 +5,11 @@ namespace CsOop
 {
     public class StockQuoteAnalyzer
     {
-        private readonly StockQuoteCsvParser Loader;
         private readonly List<StockQuote> Quotes;
 
-        public StockQuoteAnalyzer(string urlOrFilePath)
+        public StockQuoteAnalyzer(StockQuoteCsvParser parser)
         {
-            Loader = new StockQuoteCsvParser(urlOrFilePath);
-            Quotes = Loader.Load().ToList();
+            Quotes = parser.ParseQuotes().ToList();
         }
 
         public IEnumerable<Reversal> FindReversals()

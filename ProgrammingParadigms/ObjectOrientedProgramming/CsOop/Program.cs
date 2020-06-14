@@ -15,11 +15,30 @@ namespace CsOop
             // This is similar to a driver getting into a car without understanding exactly how
             // the engine operates.
 
-            var analyzer = new StockQuoteAnalyzer("msft.csv");
+            var loader = GetLoaderFor(args[0]);
+            var parser = new StockQuoteCsvParser(loader);
+            var analyzer = new StockQuoteAnalyzer(parser);
+
             foreach (var reversal in analyzer.FindReversals())
             {
                 PrintReversal(reversal);
             }
+        }
+
+        private static IDataLoader GetLoaderFor(string source)
+        {
+            IDataLoader loader;
+
+            if (source.ToLower().StartsWith("http"))
+            {
+                loader = new WebLoader(source);
+            }
+            else
+            {
+                loader = new FileLoader(source);
+            }
+
+            return loader;
         }
 
         private static void PrintReversal(Reversal reversal)

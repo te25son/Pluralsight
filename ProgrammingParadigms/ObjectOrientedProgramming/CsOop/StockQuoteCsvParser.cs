@@ -5,27 +5,19 @@ using System.Linq;
 
 namespace CsOop
 {
-    public class StockQuoteCsvParser
+    public class StockQuoteCsvParser : IStockQuoteParser
     {
         readonly IDataLoader Loader;
 
-        public StockQuoteCsvParser(string source)
+        public StockQuoteCsvParser(IDataLoader loader)
         {
-            if (source.ToLower().StartsWith("HTTP"))
-            {
-                Loader = new WebLoader(source);
-            }
-            else
-            {
-                Loader = new FileLoader(source);
-            }
+            Loader = loader;
         }
 
-        public IEnumerable<StockQuote> Load()
+        public IList<StockQuote> ParseQuotes()
         {
             var csvData = Loader.LoadData().Split('\n');
-
-            return
+            var parseQuery =
                 from line in csvData.Skip(1)
                 let data = line.Replace("-", "/").Split(',')
                 where data[0].Length > 0
@@ -37,6 +29,8 @@ namespace CsOop
                     Low = decimal.Parse(data[3]),
                     Close = decimal.Parse(data[4])
                 };
+
+            return parseQuery.ToList();
         }
     }
 }
