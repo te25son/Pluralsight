@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Linq;
+using System.Net;
 using System.Text;
 
 namespace CsOop
@@ -29,19 +30,46 @@ namespace CsOop
         }
     }
 
-    public class StockQuoteLoader
+    public class StockQuoteFileLoader : StockQuoteLoader
     {
         private readonly string FilePath;
 
-        public StockQuoteLoader(string filePath)
+        public StockQuoteFileLoader(string filePath)
         {
             FilePath = filePath;
         }
 
+        protected override string[] GetData()
+        {
+            return File.ReadAllLines(FilePath);
+        }
+    }
+
+    public class StockQuoteWebLoader : StockQuoteLoader
+    {
+        private readonly string Url;
+
+        public StockQuoteWebLoader(string url)
+        {
+            Url = url;
+        }
+
+        protected override string[] GetData()
+        {
+            var client = new WebClient();
+            return client.DownloadString(new Uri(Url)).Split('\n');
+        }
+    }
+
+    public abstract class StockQuoteLoader
+    {
+        protected abstract string[] GetData();
+
         public IEnumerable<StockQuote> Load()
         {
-            return File.ReadAllLines(FilePath).Skip(1)
-                       .Select(l => l.Split(','))
+            return GetData().Skip(1)
+                       .Select(l => l.Replace("-", "/").Split(','))
+                       .Where(i => i[0].Length > 0)
                        .Select(i =>
                            new StockQuote()
                            {
@@ -103,9 +131,16 @@ namespace CsOop
         private readonly StockQuoteLoader Loader;
         private readonly List<StockQuote> Quotes;
 
-        public StockQuoteAnalyzer(string filePath)
+        public StockQuoteAnalyzer(string urlOrFilePath)
         {
-            Loader = new StockQuoteLoader(filePath);
+            if (urlOrFilePath.ToLower().StartsWith("http"))
+            {
+                Loader = new StockQuoteWebLoader(urlOrFilePath);
+            }
+            else
+            {
+                Loader = new StockQuoteFileLoader(urlOrFilePath);
+            }
             Quotes = Loader.Load().ToList();
         }
 
