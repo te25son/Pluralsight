@@ -2,55 +2,117 @@
 using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace CsOop
 {
-    public class StockQuoteAnalyzer
-    {
-        readonly string FilePath;
-        readonly List<DateTime> Dates = new List<DateTime>();
-        readonly List<decimal> Opens = new List<decimal>();
-        readonly List<decimal> Highs = new List<decimal>();
-        readonly List<decimal> Lows = new List<decimal>();
-        readonly List<decimal> Closes = new List<decimal>();
+    // Small Abstractions are good abstractions, because they focus
+    // on one thing and do it well.
 
-        public StockQuoteAnalyzer(string filePath)
+    public class StockQuote
+    {
+        public DateTime Date { get; set; }
+        public decimal Open { get; set; }
+        public decimal High { get; set; }
+        public decimal Low { get; set; }
+        public decimal Close { get; set; }
+
+        public bool ReversesDownFrom(StockQuote otherQuote)
+        {
+            return Open > otherQuote.High && Close < otherQuote.Low;
+        }
+
+        public bool ReversesUpFrom(StockQuote otherQuote)
+        {
+            return Open < otherQuote.Low && Close > otherQuote.High;
+        }
+    }
+
+    public class StockQuoteLoader
+    {
+        private readonly string FilePath;
+
+        public StockQuoteLoader(string filePath)
         {
             FilePath = filePath;
         }
 
-        public void LoadQuotes()
+        public IEnumerable<StockQuote> Load()
         {
-            var lines = File.ReadAllLines(FilePath);
-            for (int i = 1; i < lines.Length; i++)
-            {
-                var data = lines[i].Split(',');
-                Dates.Add(DateTime.Parse(data[0], CultureInfo.InvariantCulture));
-                Opens.Add(decimal.Parse(data[1]));
-                Highs.Add(decimal.Parse(data[2]));
-                Lows.Add(decimal.Parse(data[3]));
-                Closes.Add(decimal.Parse(data[4]));
-            }
+            return File.ReadAllLines(FilePath).Skip(1)
+                       .Select(l => l.Split(','))
+                       .Select(i =>
+                           new StockQuote()
+                           {
+                               Date = DateTime.Parse(i[0], CultureInfo.InvariantCulture),
+                               Open = decimal.Parse(i[1]),
+                               High = decimal.Parse(i[2]),
+                               Low = decimal.Parse(i[3]),
+                               Close = decimal.Parse(i[4]),
+                           }
+                       );
+        }
+    }
+
+    public enum ReversalDirection
+    {
+        Up,
+        Down
+    }
+
+    public class Reversal
+    {
+        public Reversal(StockQuote quote, ReversalDirection direction)
+        {
+            StockQuote = quote;
+            Direction = direction;
         }
 
-        public void AnalyzeQuotes()
+        public ReversalDirection Direction { get; set; }
+        public StockQuote StockQuote { get; set; }
+    }
+
+    public class ReversalLocator
+    {
+        private readonly IList<StockQuote> Quotes;
+
+        public ReversalLocator(IList<StockQuote> quotes)
         {
-            for (int i = 0; i < Dates.Count - 1; i++)
+            Quotes = quotes;
+        }
+
+        public IEnumerable<Reversal> Locate()
+        {
+            for (int i = 0; i < Quotes.Count - 1; i++)
             {
-                if (Opens[i] > Highs[i + 1] && Closes[i] < Lows[i + 1])
+                if (Quotes[i].ReversesDownFrom(Quotes[i + 1]))
                 {
-                    Console.ForegroundColor = ConsoleColor.Red;
-                    Console.WriteLine($"Pivot downside {Dates[i].ToShortDateString()}");
+                    yield return new Reversal(Quotes[i], ReversalDirection.Down);
                 }
-                if (Opens[i] < Lows[i + 1] && Closes[i] > Highs[i + 1])
+                if (Quotes[i].ReversesUpFrom(Quotes[i + 1]))
                 {
-                    Console.ForegroundColor = ConsoleColor.Green;
-                    Console.WriteLine($"Pivot upside {Dates[i].ToShortDateString()}");
+                    yield return new Reversal(Quotes[i], ReversalDirection.Up);
                 }
             }
+        }
+    }
 
-            Console.ForegroundColor = ConsoleColor.White;
+    public class StockQuoteAnalyzer
+    {
+        private readonly StockQuoteLoader Loader;
+        private readonly List<StockQuote> Quotes;
+
+        public StockQuoteAnalyzer(string filePath)
+        {
+            Loader = new StockQuoteLoader(filePath);
+            Quotes = Loader.Load().ToList();
+        }
+
+        public IEnumerable<Reversal> FindReversals()
+        {
+            var locator = new ReversalLocator(Quotes);
+            return locator.Locate();
         }
     }
 }

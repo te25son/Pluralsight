@@ -19,8 +19,23 @@ namespace CsOop
             // the engine operates.
 
             var analyzer = new StockQuoteAnalyzer("msft.csv");
-            analyzer.LoadQuotes();
-            analyzer.AnalyzeQuotes();
+            foreach (var reversal in analyzer.FindReversals())
+            {
+                PrintReversal(reversal);
+            }
+        }
+
+        private static void PrintReversal(Reversal reversal)
+        {
+            if (reversal.Direction.Equals(ReversalDirection.Up))
+            {
+                Console.WriteLine($"Pivot upside {reversal.StockQuote.Date}");
+            }
+            if (reversal.Direction.Equals(ReversalDirection.Down))
+            {
+                Console.WriteLine($"Pivot downside {reversal.StockQuote.Date}");
+
+            }
         }
     }
 }
