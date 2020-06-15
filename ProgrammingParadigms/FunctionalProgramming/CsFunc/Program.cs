@@ -15,16 +15,21 @@ namespace CsFunc
             //{
             //    Console.WriteLine(prime);
             //}
- 
+
             //foreach (var even in numbers.Find(IsEven))
             //{
             //    Console.WriteLine(even);
             //}
 
-            foreach (var prime in GetRandomNumbers().Find(IsPrime).Take(2))
+            var timeKeeper = new TimeKeeper();
+            var elapsed = timeKeeper.Measure(() =>
             {
-                Console.WriteLine(prime);
-            }
+                foreach (var prime in GetRandomNumbers().Find(IsPrime).Take(2))
+                {
+                    Console.WriteLine(prime);
+                }
+            });
+            Console.WriteLine(elapsed);
         }
 
         private static IEnumerable<int> GetRandomNumbers()
