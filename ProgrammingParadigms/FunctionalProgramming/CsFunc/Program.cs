@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace CsFunc
 {
@@ -10,14 +11,30 @@ namespace CsFunc
         {
             var numbers = new[] { 3, 5, 7, 9, 11, 13 };
 
-            foreach (var prime in numbers.Find(IsPrime))
+            //foreach (var prime in numbers.Find(IsPrime))
+            //{
+            //    Console.WriteLine(prime);
+            //}
+ 
+            //foreach (var even in numbers.Find(IsEven))
+            //{
+            //    Console.WriteLine(even);
+            //}
+
+            foreach (var prime in GetRandomNumbers().Find(IsPrime).Take(2))
             {
                 Console.WriteLine(prime);
             }
+        }
 
-            foreach (var even in numbers.Find(IsEven))
+        private static IEnumerable<int> GetRandomNumbers()
+        {
+            var rand = new Random();
+            while (true)
             {
-                Console.WriteLine(even);
+                // yield return forces the code to return at the last possible moment.
+                // this is called lazy code.
+                yield return rand.Next(1000);
             }
         }
 
@@ -25,6 +42,7 @@ namespace CsFunc
         {
             foreach (var value in values)
             {
+                Console.WriteLine($"Testing {value}");
                 if (predicate(value))
                 {
                     yield return value;
