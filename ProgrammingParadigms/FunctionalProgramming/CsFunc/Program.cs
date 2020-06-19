@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
+using System.Runtime.InteropServices.ComTypes;
 
 namespace CsFunc
 {
@@ -39,6 +40,14 @@ namespace CsFunc
 
             var data = download.Partial(url).WithRetry();
             var data2 = downloadCurry(url).WithRetry();
+
+            Func<int, int, int, int, int> addFourThings = (a, b, c, d) => a + b + c + d;
+
+            var curry = new CurryOverloads();
+            var curriedFourThings = curry.Curry(addFourThings);
+            var result = curriedFourThings(1)(2)(3)(4);
+
+            Console.WriteLine(result);
         }
 
         private static IEnumerable<int> GetRandomNumbers()
@@ -99,15 +108,6 @@ namespace CsFunc
             var add5 = curriedAdd(5);
             Console.WriteLine(add5(3));
             Console.WriteLine(add5(2));
-        }
-
-        public static Func<string> SelectorBuild(string value)
-        {
-            
-        }
-
-        public static Func<string, Func<string>> SelectorBuilder(Func<string> func)
-        {
         }
     }
 }
