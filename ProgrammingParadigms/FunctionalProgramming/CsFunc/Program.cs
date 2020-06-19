@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Net;
 
 namespace CsFunc
 {
@@ -21,15 +22,20 @@ namespace CsFunc
             //    Console.WriteLine(even);
             //}
 
-            var timeKeeper = new TimeKeeper();
-            var elapsed = timeKeeper.Measure(() =>
-            {
-                foreach (var prime in GetRandomNumbers().Find(IsPrime).Take(2))
-                {
-                    Console.WriteLine(prime);
-                }
-            });
-            Console.WriteLine(elapsed);
+            //var timeKeeper = new TimeKeeper();
+            //var elapsed = timeKeeper.Measure(() =>
+            //{
+            //    foreach (var prime in GetRandomNumbers().Find(IsPrime).Take(2))
+            //    {
+            //        Console.WriteLine(prime);
+            //    }
+            //});
+            //Console.WriteLine(elapsed);
+
+            var client = new WebClient();
+            Func<string> download = () => client.DownloadString("http://microsoft.com");
+
+            var data = download.WithRetry();
         }
 
         private static IEnumerable<int> GetRandomNumbers()
