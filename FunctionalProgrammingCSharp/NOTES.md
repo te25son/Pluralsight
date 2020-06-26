@@ -28,3 +28,7 @@ var posOrNeg =
 ```
 
 In example `A` we have an unassigned variable and then multiple places where `posOrNeg` is assigned. This is a classic example of the use of the statements. On the hand, in example `B` we use the *ternary operator* to execute for a result. This means that where `posOrNeg` in `A` is assigned as a **side-effect** of the if/else statement, the same variable in `B` is assigned as the **result** of an operator. 
+
+How do we tame side-effects in C#?
+
+One is to enforce immutability within our custom types. By having immutable types, we avoid the possibility that another colleague changes one of the classes properties, negatively affecting our code.
