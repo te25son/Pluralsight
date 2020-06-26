@@ -49,3 +49,31 @@ range.End = DateTime.MaxValue;
 
 testDates.ForEach(d => Console.WriteLine($"{d:yyy-MM-dd} - {range.DateIsInRange(d)}"));
 ```
+
+This can be solved by giving our `DateRange` class private setters and a constructor so that those values cannot be changed from outside the class. This is called **external immutability**.
+
+However, what would happen if we added the following to our class?
+
+```cs
+public void Slide(int days)
+{
+    Start = Start.AddDays(days);
+    End = End.AddDays(days);
+}
+```
+
+Once again, our property values can be changed, although now they are being changed internally rather than externally. And just as there is external immutability, there is also **internal immutability**.
+
+One way to make our `DateRange` class internally immutable would be to create private readonly backing field for our start and end properties like this:
+
+```cs
+private readonly DateTime _start;
+private readonly DateTime _end;
+```
+
+We would then assign these properties through the class constructor, and use the public `Start` and `End` properties to return the values of `_start` and `_end` like this:
+
+```cs
+public DateTime Start { get { return _start; } }
+public DateTime End { get { return _end; } }
+```
