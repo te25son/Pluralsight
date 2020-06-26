@@ -32,3 +32,20 @@ In example `A` we have an unassigned variable and then multiple places where `po
 How do we tame side-effects in C#?
 
 One is to enforce immutability within our custom types. By having immutable types, we avoid the possibility that another colleague changes one of the classes properties, negatively affecting our code.
+
+Example of changing a property that will give different results:
+
+```cs
+var range = new DateRange 
+{ 
+    Start = DateTime.Parse("2015-11-01"),
+    End = DateTime.Parse("2015-11-06") 
+};
+
+testDates.ForEach(d => Console.WriteLine($"{d:yyy-MM-dd} - {range.DateIsInRange(d)}"));
+            
+// The end date of our mutable type is changed, and the result of the line above changes.
+range.End = DateTime.MaxValue;
+
+testDates.ForEach(d => Console.WriteLine($"{d:yyy-MM-dd} - {range.DateIsInRange(d)}"));
+```
