@@ -22,18 +22,17 @@ namespace ExpressYourself
                     DateTime.Parse("2015-12-01"),
                 };
 
-            var range = new DateRange 
-            { 
-                Start = DateTime.Parse("2015-11-01"),
-                End = DateTime.Parse("2015-11-06") 
-            };
+            var range = new DateRange(DateTime.Parse("2015-11-01"), DateTime.Parse("2015-11-06"));
 
             testDates.ForEach(d => Console.WriteLine($"{d:yyy-MM-dd} - {range.DateIsInRange(d)}"));
-            
-            // The end date of our mutable type is changed, and the result of the line above changes.
-            range.End = DateTime.MaxValue;
 
-            testDates.ForEach(d => Console.WriteLine($"{d:yyy-MM-dd} - {range.DateIsInRange(d)}"));
+            var range2 = new DateRange(range.Start, DateTime.MaxValue);
+
+            testDates.ForEach(d => Console.WriteLine($"{d:yyy-MM-dd} - {range2.DateIsInRange(d)}"));
+
+            var range3 = range.Slide(7);
+
+            testDates.ForEach(d => Console.WriteLine($"{d:yyy-MM-dd} - {range3.DateIsInRange(d)}"));
         }
     }
 }
