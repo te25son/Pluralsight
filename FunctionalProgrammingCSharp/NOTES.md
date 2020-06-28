@@ -77,3 +77,9 @@ We would then assign these properties through the class constructor, and use the
 public DateTime Start { get { return _start; } }
 public DateTime End { get { return _end; } }
 ```
+
+## Functional Thinking 
+
+While mutability and expressions are a key part of FP, they do not make a language functional. In order for a language to be considered functional, it must treat functions as **first-class citizens**. 
+
+To treat a function as a first-class citizen, you must pass and return functions as you would any other data type. 
