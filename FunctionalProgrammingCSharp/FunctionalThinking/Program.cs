@@ -7,6 +7,8 @@ namespace FunctionalThinking
         static void Main(string[] args)
         {
             ClassicDelegation.Run();
+            AnonymousMethods.Run();
+            GenericsAndExpressions.Run();
         }
     }
 }
