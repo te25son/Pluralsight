@@ -9,6 +9,7 @@ namespace ExpressYourself
         static void Main(string[] args)
         {
             WhyImmutibilityMatters();
+            StatementToExpression.Run();
         }
 
         static void WhyImmutibilityMatters()
