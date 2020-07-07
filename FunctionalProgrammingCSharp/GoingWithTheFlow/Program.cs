@@ -6,9 +6,31 @@ namespace GoingWithTheFlow
 {
     class Program
     {
+        public static class Disposable
+        {
+            public static TResult Using<TDisposable, TResult>(Func<TDisposable> factory, Func<TDisposable, TResult> map)
+                where TDisposable : IDisposable
+            {
+                using (var disposable = factory())
+                {
+                    return map(disposable);
+                }
+            }
+        }
+
         static void Main(string[] args)
         {
-            byte[] buffer;
+            var buffer =
+                Disposable
+                    .Using(
+                        StreamFactory.GetStream,
+                        stream =>
+                        {
+                            var b = new byte[stream.Length];
+                            stream.Read(b, 0, (int)stream.Length);
+                            return b;
+                        });
+                    
 
             using (var stream = StreamFactory.GetStream())
             {
