@@ -1,6 +1,7 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -27,7 +28,10 @@ namespace OdeToFood
         {
             services.AddDbContextPool<OdeToFoodDbContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("OdeToFoodDb"));
+                if (RuntimeInformation.IsOSPlatform(OSPlatform.OSX))
+                    options.UseNpgsql(Configuration["Connections:PostgresConnection"]);
+                else
+                    options.UseSqlServer(Configuration.GetConnectionString("OdeToFoodDb"));
             });
 
             services.AddSingleton<IRestaurantData, InMemoryRestaurantData>();
