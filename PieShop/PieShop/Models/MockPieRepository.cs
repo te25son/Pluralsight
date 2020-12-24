@@ -12,7 +12,7 @@ namespace PieShop.Models
             categoryRepository.Categories.First(c => c.Name.Equals("Fruit pies"));
 
         private Category CheesecakeCategory =>
-            categoryRepository.Categories.First(c => c.Name.Equals("Cheesecake"));
+            categoryRepository.Categories.First(c => c.Name.Equals("Cheesecakes"));
 
         private Category SeasonalPieCategory =>
             categoryRepository.Categories.First(c => c.Name.Equals("Seasonal pies"));
