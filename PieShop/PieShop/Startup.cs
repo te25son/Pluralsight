@@ -32,8 +32,8 @@ namespace PieShop
             );
 
             // Register own services.
-            services.AddScoped<IPieRepository, MockPieRepository>();
-            services.AddScoped<ICategoryRepository, MockCategoryRepository>();
+            services.AddScoped<IPieRepository, PieRepository>();
+            services.AddScoped<ICategoryRepository, CategoryRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
