@@ -1,12 +1,7 @@
 ﻿using AutoMapper;
 using CoreCodeCamp.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace CoreCodeCamp.Data
+namespace CoreCodeCamp.Data.Profiles
 {
     public class CampProfile : Profile
     {
