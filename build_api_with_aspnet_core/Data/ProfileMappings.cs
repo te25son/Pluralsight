@@ -7,6 +7,7 @@ namespace CoreCodeCamp.Data
     {
         public ProfileMappings()
         {
+            CreateMap<CampModel, Camp>();
             CreateMap<Camp, CampModel>()
                 .ForMember(
                     destinationMember: c => c.Venue,
