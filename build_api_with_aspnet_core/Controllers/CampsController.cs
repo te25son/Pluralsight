@@ -33,7 +33,7 @@ namespace CoreCodeCamp.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Database failure");
+                return RequestDatabaseFailure();
             }
         }
 
@@ -50,7 +50,7 @@ namespace CoreCodeCamp.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Database failure");
+                return RequestDatabaseFailure();
             }
         }
 
@@ -67,7 +67,7 @@ namespace CoreCodeCamp.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Database failure");
+                return RequestDatabaseFailure();
             }
         }
 
@@ -98,7 +98,7 @@ namespace CoreCodeCamp.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Database failure");
+                return RequestDatabaseFailure();
             }
 
             return BadRequest();
@@ -121,7 +121,7 @@ namespace CoreCodeCamp.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Database failure");
+                return RequestDatabaseFailure();
             }
 
             return BadRequest();
@@ -144,7 +144,7 @@ namespace CoreCodeCamp.Controllers
             }
             catch (Exception)
             {
-                return StatusCode(StatusCodes.Status500InternalServerError, "Database failure");
+                return RequestDatabaseFailure();
             }
 
             return BadRequest("Failed to delete camp");
