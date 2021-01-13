@@ -17,11 +17,11 @@ namespace CoreCodeCamp.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<TalkModel[]>> Get(string moniker, bool includeTalks = true)
+        public async Task<ActionResult<TalkModel[]>> Get(string moniker, bool includeSpeakers = true)
         {
             try
             {
-                var talks = await Repository.GetTalksByMonikerAsync(moniker, includeTalks);
+                var talks = await Repository.GetTalksByMonikerAsync(moniker, includeSpeakers);
 
                 return Mapper.Map<TalkModel[]>(talks);
             }
@@ -32,11 +32,11 @@ namespace CoreCodeCamp.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<TalkModel>> Get(string moniker, int id, bool includeTalks = true)
+        public async Task<ActionResult<TalkModel>> Get(string moniker, int id, bool includeSpeakers = true)
         {
             try
             {
-                var talk = await Repository.GetTalkByMonikerAsync(moniker, id, includeTalks);
+                var talk = await Repository.GetTalkByMonikerAsync(moniker, id, includeSpeakers);
 
                 if (talk == null)
                     return NotFound($"Talk with id '{id}' not found.");
