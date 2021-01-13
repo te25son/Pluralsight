@@ -17,11 +17,11 @@ namespace CoreCodeCamp.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<TalkModel[]>> Get(string moniker)
+        public async Task<ActionResult<TalkModel[]>> Get(string moniker, bool includeTalks = true)
         {
             try
             {
-                var talks = await Repository.GetTalksByMonikerAsync(moniker);
+                var talks = await Repository.GetTalksByMonikerAsync(moniker, includeTalks);
 
                 return Mapper.Map<TalkModel[]>(talks);
             }
@@ -32,11 +32,11 @@ namespace CoreCodeCamp.Controllers
         }
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<TalkModel>> Get(string moniker, int id)
+        public async Task<ActionResult<TalkModel>> Get(string moniker, int id, bool includeTalks = true)
         {
             try
             {
-                var talk = await Repository.GetTalkByMonikerAsync(moniker, id);
+                var talk = await Repository.GetTalkByMonikerAsync(moniker, id, includeTalks);
 
                 if (talk == null)
                     return NotFound($"Talk with id '{id}' not found.");
@@ -47,6 +47,50 @@ namespace CoreCodeCamp.Controllers
             {
                 return RequestDatabaseFailure();
             }
+        }
+
+        [HttpPost]
+        public async Task<ActionResult<TalkModel>> Post(string moniker, TalkModel model)
+        {
+            try
+            {
+                var camp = await Repository.GetCampAsync(moniker);
+
+                if (camp == null)
+                    return BadRequest("Camp does not exist.");
+
+                var talk = Mapper.Map<Talk>(model);
+                talk.Camp = camp;
+
+                if (model.Speaker == null)
+                    return BadRequest("Speaker Id is required.");
+
+                var speaker = await Repository.GetSpeakerAsync(model.Speaker.SpeakerId);
+
+                if (speaker == null)
+                    return BadRequest("Speaker could not be found.");
+
+                talk.Speaker = speaker;
+
+                Repository.Add(talk);
+
+                if (await Repository.SaveChangesAsync())
+                {
+                    var url = LinkGenerator.GetPathByAction(
+                        httpContext: HttpContext,
+                        action: "Get",
+                        values: new { moniker, id = talk.TalkId }
+                    );
+
+                    return Created(url, Mapper.Map<TalkModel>(talk));
+                }
+            }
+            catch (Exception)
+            {
+                return RequestDatabaseFailure();
+            }
+
+            return BadRequest("Unable to save talk.");
         }
     }
 }
