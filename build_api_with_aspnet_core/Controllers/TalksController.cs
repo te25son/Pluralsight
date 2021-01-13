@@ -124,5 +124,28 @@ namespace CoreCodeCamp.Controllers
 
             return BadRequest("Unable to update talk.");
         }
+
+        [HttpDelete("{id:int}")]
+        public async Task<IActionResult> Delete(string moniker, int id)
+        {
+            try
+            {
+                var talk = await Repository.GetTalkByMonikerAsync(moniker, id);
+
+                if (talk == null)
+                    return NotFound($"Talk with id '{id}' not found.");
+
+                Repository.Delete(talk);
+
+                if (await Repository.SaveChangesAsync())
+                    return Ok();
+            }
+            catch (Exception)
+            {
+                return RequestDatabaseFailure();
+            }
+
+            return BadRequest("Unable to delete talk.");
+        }
     }
 }
