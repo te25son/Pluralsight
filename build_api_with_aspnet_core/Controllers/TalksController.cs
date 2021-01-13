@@ -92,5 +92,37 @@ namespace CoreCodeCamp.Controllers
 
             return BadRequest("Unable to save talk.");
         }
+
+        [HttpPut("{id:int}")]
+        public async Task<ActionResult<TalkModel>> Put(string moniker, int id, TalkModel model, bool includeSpeakers = true)
+        {
+            try
+            {
+                var talk = await Repository.GetTalkByMonikerAsync(moniker, id, includeSpeakers);
+
+                if (talk == null)
+                    return NotFound($"Talk with id '{id}' not found.");
+
+                if (model.Speaker != null)
+                {
+                    var speaker = await Repository.GetSpeakerAsync(model.Speaker.SpeakerId);
+                    if (speaker != null)
+                    {
+                        talk.Speaker = speaker;
+                    }
+                }
+
+                Mapper.Map(model, talk);
+
+                if (await Repository.SaveChangesAsync())
+                    return Mapper.Map<TalkModel>(talk);
+            }
+            catch (Exception)
+            {
+                return RequestDatabaseFailure();
+            }
+
+            return BadRequest("Unable to update talk.");
+        }
     }
 }

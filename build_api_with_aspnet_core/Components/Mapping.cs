@@ -19,8 +19,17 @@ namespace CoreCodeCamp.Components
                     destinationMember: c => c.Venue,
                     memberOptions: o => o.MapFrom(m => m.Location.VenueName))
                 .ReverseMap();
+
             config.CreateMap<Talk, TalkModel>()
-                .ReverseMap();
+                .ReverseMap()
+                .ForMember(
+                    destinationMember: t => t.Camp,
+                    memberOptions: o => o.Ignore())
+                .ForMember(
+                    destinationMember: t => t.Speaker,
+                    memberOptions: o => o.Ignore()
+                );
+
             config.CreateMap<Speaker, SpeakerModel>()
                 .ReverseMap();
         }
