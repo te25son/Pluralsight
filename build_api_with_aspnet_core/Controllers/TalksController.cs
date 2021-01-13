@@ -30,5 +30,23 @@ namespace CoreCodeCamp.Controllers
                 return RequestDatabaseFailure();
             }
         }
+
+        [HttpGet("{id:int}")]
+        public async Task<ActionResult<TalkModel>> Get(string moniker, int id)
+        {
+            try
+            {
+                var talk = await Repository.GetTalkByMonikerAsync(moniker, id);
+
+                if (talk == null)
+                    return NotFound($"Talk with id '{id}' not found.");
+
+                return Mapper.Map<TalkModel>(talk);
+            }
+            catch (Exception)
+            {
+                return RequestDatabaseFailure();
+            }
+        }
     }
 }
